@@ -210,8 +210,8 @@ const footerAnimation = () => {
 
         const body = Bodies.rectangle(x, y, width, height, {
             density: 10,
-            restitution: 0.75,
-            friction: 0.2,
+            restitution: 0.1,
+            friction: 5,
             frictionAir: 0.02,
             render: {
               fillStyle: colour
@@ -229,7 +229,7 @@ const footerAnimation = () => {
         initialBodyPositions.push({ body, x, y });
   
         const bodyText = Bodies.rectangle(body.position.x, body.position.y, Math.max(40, width/2), 20, {
-            restitution: 0,
+            restitution: 0.1,
             friction: 1,
             isStatic: true,
             inertia: Infinity,
@@ -284,29 +284,6 @@ const footerAnimation = () => {
   
         return drawing.toDataURL("image/png");
     };
-
-    // //generate Random Boxes
-    // const generateRandomRectangles = (minCount = 8, maxCount = 14) => {
-    //     const count = Math.floor(Math.random() * (maxCount - minCount + 1)) + minCount;
-        
-    //     for (let i = 0; i < count; i++) {
-
-    //         const sizeKeys = Object.keys(sizes);
-    //         const randomSizeKey = sizeKeys[Math.floor(Math.random() * sizeKeys.length)];
-            
- 
-    //         const randomColourName = Object.keys(colours)[Math.floor(Math.random() * Object.keys(colours).length)];
-            
-    //         const randomDecimal = Math.random() * (0.9 - 0.1) + 0.1;
-    //         const randomNumber = Math.random() * (-225 - (-150)) - 150; 
-    //         const randomX = canvasWidth > 600 ? canvasWidth*randomDecimal : canvasWidth*randomDecimal; 
-    //         const randomY = -350;
-    
-    //         createBody(false, " ", randomX, randomY, randomSizeKey, randomColourName, null, 1, 0); 
-    //     }
-    // };
-    
-    // generateRandomRectangles();
 
     const links = [
         { hasImage: false, text: "Services", positionX: canvasWidth > 768 ? canvasWidth * 0.1 : canvasWidth * 0.1, positionY: -250, size: "lgrec", color: 'brightAzure', link: "/services" },
