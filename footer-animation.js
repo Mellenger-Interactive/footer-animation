@@ -290,7 +290,8 @@ const footerAnimation = () => {
         { hasImage: false, text: "Our work", positionX: canvasWidth > 768 ? canvasWidth * 0.7 : canvasWidth * 0., positionY: -290, size: "lgsq", color: 'skyBlue', link: "/our-work" },
         { hasImage: false, text: "About", positionX: canvasWidth > 768 ? canvasWidth * 0.3 : canvasWidth * 0.3, positionY: -250, size: "mdsq", color: 'paleSkyBlue', link: "/about" },
         { hasImage: false, text: "Get in touch", positionX: canvasWidth > 768 ? canvasWidth * 0.4: canvasWidth * 0.4, positionY: -250, size: "lgrec", color: 'charcoal', link: "/contact-us" },
-        { hasImage: false, text: "Blog", positionX: canvasWidth > 768 ? canvasWidth * 0.5 : canvasWidth * 0.5, positionY: -250, size: "smsq", color: 'skyBlue', link: "/blog" },
+        { hasImage: false, text: "Blog", positionX: canvasWidth > 768 ? canvasWidth * 0.5 : canvasWidth * 0.5, positionY: -250, size: "smsq", color: 'brightAzure', link: "/blog" },
+        { hasImage: false, text: "Process", positionX: canvasWidth > 768 ? canvasWidth * 0.2 : canvasWidth * 0.2, positionY: -250, size: "mdrec", color: 'midnightBlue', link: "/process" },
         { hasImage: false, text: "© 2024 Mellenger Interactive.", positionX: canvasWidth > 768 ? canvasWidth * 0.9 : canvasWidth * 0.8, positionY: canvasWidth > 768 ? 1100 : 750, size: "mdrec", color: 'lightPeriwinkle', link: null },
         { hasImage: true, text: "/images/Instagram_White.svg", positionX: canvasWidth > 768 ? canvasWidth * 0.9: canvasWidth * 0.8, positionY: canvasWidth > 768 ? 1050 : 700, size: "xssq", color: 'midnightBlue', link:"https://www.instagram.com/mellengerinteractive"},
         { hasImage: true, text: "/images/LinkedIn_White.svg", positionX: canvasWidth > 768 ? canvasWidth * 0.95: canvasWidth * 0.6, positionY: canvasWidth > 768 ? 1050 : 700, size: "xssq", color: 'brightAzure', link: "https://ca.linkedin.com/company/mellenger-interactive-ltd" }
