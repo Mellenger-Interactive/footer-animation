@@ -121,7 +121,7 @@ const footerAnimation = () => {
 
     // Renderer
     const canvasWidth = window.innerWidth;
-    const canvasHeight = window.innerWidth <= 768 ? 912 : 1000;
+    const canvasHeight = window.innerWidth <= 768 ? 912 : 1400;
 
     const render = Render.create({
         element: document.body,
@@ -309,18 +309,18 @@ const footerAnimation = () => {
     // generateRandomRectangles();
 
     const links = [
-        { hasImage: false, text: "Services", positionX: canvasWidth > 600 ? canvasWidth * 0.1 : canvasWidth * 0.1, positionY: -250, size: "lgrec", color: 'brightAzure', link: "/services" },
-        { hasImage: false, text: "Our work", positionX: canvasWidth > 600 ? canvasWidth * 0.9 : canvasWidth * 0.9, positionY: -290, size: "lgsq", color: 'skyBlue', link: "/our-work" },
-        { hasImage: false, text: "About", positionX: canvasWidth > 600 ? canvasWidth * 0.3 : canvasWidth * 0.3, positionY: -250, size: "mdsq", color: 'lightPeriwinkle', link: "/about" },
-        { hasImage: false, text: "Get in touch", positionX: canvasWidth > 600 ? canvasWidth * 0.4: canvasWidth * 0.4, positionY: -250, size: "lgrec", color: 'charcoal', link: "/contact-us" },
-        { hasImage: false, text: "Blog", positionX: canvasWidth > 600 ? canvasWidth * 0.5 : canvasWidth * 0.5, positionY: -250, size: "smsq", color: 'skyBlue', link: "/blog" },
-        { hasImage: false, text: "© 2024 Mellenger Interactive.", positionX: canvasWidth > 600 ? canvasWidth * 0.6: canvasWidth * 0.6, positionY: -250, size: "mdrec", color: 'paleSkyBlue', link: null },
-        { hasImage: true, text: "/images/Instagram_White.svg", positionX: canvasWidth > 600 ? canvasWidth * 0.7: canvasWidth * 0.7, positionY: -250, size: "xssq", color: 'midnightBlue', link:"https://www.instagram.com/mellengerinteractive"},
-        { hasImage: true, text: "/images/LinkedIn_White.svg", positionX: canvasWidth > 600 ? canvasWidth * 0.8: canvasWidth * 0.8, positionY: -250, size: "xssq", color: 'brightAzure', link: "https://ca.linkedin.com/company/mellenger-interactive-ltd" }
+        { hasImage: false, text: "Services", positionX: canvasWidth > 768 ? canvasWidth * 0.1 : canvasWidth * 0.1, positionY: -250, size: "lgrec", color: 'brightAzure', link: "/services" },
+        { hasImage: false, text: "Our work", positionX: canvasWidth > 768 ? canvasWidth * 0.7 : canvasWidth * 0., positionY: -290, size: "lgsq", color: 'skyBlue', link: "/our-work" },
+        { hasImage: false, text: "About", positionX: canvasWidth > 768 ? canvasWidth * 0.3 : canvasWidth * 0.3, positionY: -250, size: "mdsq", color: 'paleSkyBlue', link: "/about" },
+        { hasImage: false, text: "Get in touch", positionX: canvasWidth > 768 ? canvasWidth * 0.4: canvasWidth * 0.4, positionY: -250, size: "lgrec", color: 'charcoal', link: "/contact-us" },
+        { hasImage: false, text: "Blog", positionX: canvasWidth > 768 ? canvasWidth * 0.5 : canvasWidth * 0.5, positionY: -250, size: "smsq", color: 'skyBlue', link: "/blog" },
+        { hasImage: false, text: "© 2024 Mellenger Interactive.", positionX: canvasWidth > 768 ? canvasWidth * 0.9 : canvasWidth * 0.8, positionY: canvasWidth > 768 ? 1100 : 750, size: "mdrec", color: 'lightPeriwinkle', link: null },
+        { hasImage: true, text: "/images/Instagram_White.svg", positionX: canvasWidth > 768 ? canvasWidth * 0.9: canvasWidth * 0.8, positionY: canvasWidth > 768 ? 1050 : 700, size: "xssq", color: 'midnightBlue', link:"https://www.instagram.com/mellengerinteractive"},
+        { hasImage: true, text: "/images/LinkedIn_White.svg", positionX: canvasWidth > 768 ? canvasWidth * 0.95: canvasWidth * 0.6, positionY: canvasWidth > 768 ? 1050 : 700, size: "xssq", color: 'brightAzure', link: "https://ca.linkedin.com/company/mellenger-interactive-ltd" }
     ];
     
     links.forEach(link => {
-        createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, link.link, 1, 0.25);
+        createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, link.link, 1, 0);
     });
 
     //Mouse
