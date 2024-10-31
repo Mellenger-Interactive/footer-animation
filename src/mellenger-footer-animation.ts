@@ -523,7 +523,7 @@ class MellengerFooterAnimation extends HTMLElement {
       };
 
 
-      const createBody = (hasImage, text, x, y, size, colourName, link, scale, bodyAngle) => {
+      const createBody = (hasImage:boolean = true, text:string = '', x:number, y:number, size:string, colourName:string, link:string, scale:number, bodyAngle:number) => {
 
         const {
           width,
@@ -566,12 +566,12 @@ class MellengerFooterAnimation extends HTMLElement {
           frictionAir: 0.5,
           render: {
             sprite: {
-              texture: hasImage ? text : createTextImage(text, colourName),
+              texture: String(hasImage ? text : createTextImage(text, colourName)),
               xScale: hasImage ? 1 : 0.75,
               yScale: hasImage ? 1 : 0.75
             },
           },
-          url: link
+          // url: link
         });
 
         Body.setPosition(bodyText, {
@@ -603,11 +603,12 @@ class MellengerFooterAnimation extends HTMLElement {
         });
       }
 
-      const createTextImage = (string, colourName) => {
+      const createTextImage = (string:string, colourName:string) => {
         const drawing = document.createElement("canvas");
         drawing.width = 250;
         drawing.height = 200;
         const ctx = drawing.getContext("2d");
+        if (!ctx) return;
 
         // Clear the canvas
         ctx.clearRect(0, 0, drawing.width, drawing.height);
@@ -710,7 +711,7 @@ class MellengerFooterAnimation extends HTMLElement {
       ];
 
       links.forEach(link => {
-        createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, link.link, 1, 0);
+        createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, String(link.link), 1, 0);
       });
 
       //Mouse
