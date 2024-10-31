@@ -725,39 +725,39 @@ class MellengerFooterAnimation extends HTMLElement {
         }
       });
 
-      mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
-      mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
-      mouseConstraint.mouse.element.removeEventListener('touchstart', mouseConstraint.mouse.mousedown);
-      mouseConstraint.mouse.element.removeEventListener('touchmove', mouseConstraint.mouse.mousemove);
-      mouseConstraint.mouse.element.removeEventListener('touchend', mouseConstraint.mouse.mouseup);
-      mouseConstraint.mouse.element.addEventListener('touchstart', mouseConstraint.mouse.mousedown, {
-        passive: true
-      });
-      mouseConstraint.mouse.element.addEventListener('touchmove', (event) => {
-        if (mouseConstraint.body) {
-          mouseConstraint.mouse.mousemove(event);
-        }
-      });
-      mouseConstraint.mouse.element.addEventListener('touchend', (event) => {
-        if (mouseConstraint.body) {
-          mouseConstraint.mouse.mouseup(event);
-        }
-      });
+      // mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
+      // mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
+      // mouseConstraint.mouse.element.removeEventListener('touchstart', mouseConstraint.mouse.mousedown);
+      // mouseConstraint.mouse.element.removeEventListener('touchmove', mouseConstraint.mouse.mousemove);
+      // mouseConstraint.mouse.element.removeEventListener('touchend', mouseConstraint.mouse.mouseup);
+      // mouseConstraint.mouse.element.addEventListener('touchstart', mouseConstraint.mouse.mousedown, {
+      //   passive: true
+      // });
+      // mouseConstraint.mouse.element.addEventListener('touchmove', (event) => {
+      //   if (mouseConstraint.body) {
+      //     mouseConstraint.mouse.mousemove(event);
+      //   }
+      // });
+      // mouseConstraint.mouse.element.addEventListener('touchend', (event) => {
+      //   if (mouseConstraint.body) {
+      //     mouseConstraint.mouse.mouseup(event);
+      //   }
+      // });
 
       Composite.add(engine.world, mouseConstraint);
 
       Events.on(mouseConstraint, 'mousedown', function(event) {
         const mouseConstraint = event.source;
         const bodies = engine.world.bodies;
-        if (!mouseConstraint.bodyB) {
+        if (!mouseConstraint.body) {
           for (let i = bodies.length - 1; i >= 0; i--) {
             const body = bodies[i];
             if (Matter.Bounds.contains(body.bounds, mouseConstraint.mouse.position)) {
-              const bodyUrl = body.url;
-              // Hyperlinking feature
-              if (bodyUrl != undefined) {
-                window.location.href = bodyUrl;
-              }
+              // const bodyUrl = body.url;
+              // // Hyperlinking feature
+              // if (bodyUrl != undefined) {
+              //   window.location.href = bodyUrl;
+              // }
               break;
             }
           }
