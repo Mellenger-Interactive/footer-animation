@@ -1,6 +1,17 @@
-import Matter from "matter-js";
-// import decomp from "./decomp.min";
-// const decomp = require("poly-decomp");
+import Matter, { Vector, IChamferableBodyDefinition } from "matter-js";
+
+interface ICustomBodyDefinition extends IChamferableBodyDefinition {
+  url?: string; 
+}
+
+interface Sizes {
+  [key: string]: { width: number; height: number };
+}
+
+interface ColorMap {
+  [key: string]: string; // Allows any string as a key
+}
+
 
 class MellengerFooterAnimation extends HTMLElement {
   constructor() {
@@ -18,13 +29,13 @@ class MellengerFooterAnimation extends HTMLElement {
       Bodies = Matter.Bodies,
       Events = Matter.Events,
       Composite = Matter.Composite,
-      Common = Matter.Common,
       Mouse = Matter.Mouse,
       MouseConstraint = Matter.MouseConstraint,
       Body = Matter.Body;
 
 
-    const footerOutlineVertices = [{
+    const footerOutlineVertices: Vector[][] = [[
+      {
         x: 98.5000,
         y: 1.0000
       },
@@ -364,20 +375,26 @@ class MellengerFooterAnimation extends HTMLElement {
         x: 121.5000,
         y: 77.5000
       }
-    ]
+    ]]
 
     // const footerAnimation = () => {
-      // window.decomp = polyDecomp;
-      Common.setDecomp(decomp);
       const initialBodyPositions = [];
 
       // Engine
       const engine = Engine.create({
         timing: {
-          timeScale: 1,
-          timeStep: 1000 / 80,
+          timeScale: 1
         },
       });
+
+      function updateEngine() {
+        const fixedTimestep = 1000 / 80;
+        Engine.update(engine, fixedTimestep);
+
+        requestAnimationFrame(updateEngine);
+      }
+
+      requestAnimationFrame(updateEngine);
 
       engine.world.gravity.y = 0;
 
@@ -399,12 +416,8 @@ class MellengerFooterAnimation extends HTMLElement {
           height: canvasHeight,
           wireframes: false,
           pixelRatio: 2,
-          background: "#0031AF",
-          id: 'footer-animation'
-        },
-        render: {
-          strokeStyle: 'white',
-        },
+          background: "#0031AF"
+        }
       });
 
       const topWall = Bodies.rectangle(canvasWidth / 2, canvasHeight, canvasWidth * 2, 2, {
@@ -474,7 +487,7 @@ class MellengerFooterAnimation extends HTMLElement {
 
 
       // Shapes
-      const sizes = {
+      const sizes: Sizes = {
         xssq: {
           width: 56,
           height: 56
@@ -513,7 +526,7 @@ class MellengerFooterAnimation extends HTMLElement {
         }
       }
 
-      const colours = {
+      const colours: ColorMap = {
         charcoal: "#1A202C",
         brightAzure: "#327AE0",
         skyBlue: "#5BB0FF",
@@ -541,7 +554,7 @@ class MellengerFooterAnimation extends HTMLElement {
           frictionAir: 0.02,
           render: {
             fillStyle: colour
-          }
+          },
         })
 
         if (scale != 1) {
@@ -571,8 +584,9 @@ class MellengerFooterAnimation extends HTMLElement {
               yScale: hasImage ? 1 : 0.75
             },
           },
-          // url: link
-        });
+          url: link
+        } as ICustomBodyDefinition
+        );
 
         Body.setPosition(bodyText, {
           x: body.position.x,
@@ -652,7 +666,7 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: -250,
           size: "mdsq",
           color: 'paleSkyBlue',
-          link: "/about"
+          link: "/about-us"
         },
         {
           hasImage: false,
@@ -679,7 +693,7 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: -250,
           size: "mdrec",
           color: 'midnightBlue',
-          link: "/process"
+          link: "/services"
         },
         {
           hasImage: false,
@@ -731,9 +745,7 @@ class MellengerFooterAnimation extends HTMLElement {
       // mouseConstraint.mouse.element.removeEventListener('touchstart', mouseConstraint.mouse.mousedown);
       // mouseConstraint.mouse.element.removeEventListener('touchmove', mouseConstraint.mouse.mousemove);
       // mouseConstraint.mouse.element.removeEventListener('touchend', mouseConstraint.mouse.mouseup);
-      // mouseConstraint.mouse.element.addEventListener('touchstart', mouseConstraint.mouse.mousedown, {
-      //   passive: true
-      // });
+      // mouseConstraint.mouse.element.addEventListener('touchstart', mouseConstraint.mouse.mousedown, { passive: true });
       // mouseConstraint.mouse.element.addEventListener('touchmove', (event) => {
       //   if (mouseConstraint.body) {
       //     mouseConstraint.mouse.mousemove(event);
@@ -748,22 +760,24 @@ class MellengerFooterAnimation extends HTMLElement {
       Composite.add(engine.world, mouseConstraint);
 
       Events.on(mouseConstraint, 'mousedown', function(event) {
-        const mouseConstraint = event.source;
-        const bodies = engine.world.bodies;
-        if (!mouseConstraint.body) {
-          for (let i = bodies.length - 1; i >= 0; i--) {
-            const body = bodies[i];
-            if (Matter.Bounds.contains(body.bounds, mouseConstraint.mouse.position)) {
-              // const bodyUrl = body.url;
-              // // Hyperlinking feature
-              // if (bodyUrl != undefined) {
-              //   window.location.href = bodyUrl;
-              // }
-              break;
+          const mouseConstraint = event.source;
+          console.log('mouseConstraint', mouseConstraint)
+          const bodies = engine.world.bodies;
+          if (mouseConstraint.body) {
+            for (let i = bodies.length-1; i >= 0; i--) {
+              const body = bodies[i];
+              console.log('body', body)
+              if (Matter.Bounds.contains(body.bounds, mouseConstraint.mouse.position)) {
+                const bodyUrl = body.url;
+                // Hyperlinking feature
+                if (bodyUrl != undefined) {
+                  window.location.href = bodyUrl;
+                }
+                break;
+              }
             }
           }
-        }
-      });
+        });
 
       render.mouse = mouse;
 
