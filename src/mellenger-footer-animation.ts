@@ -1,7 +1,7 @@
 import Matter, { Vector, IChamferableBodyDefinition } from "matter-js";
 
 interface ICustomBodyDefinition extends IChamferableBodyDefinition {
-  url?: string; 
+  url?: string;
 }
 
 interface Sizes {
@@ -761,16 +761,15 @@ class MellengerFooterAnimation extends HTMLElement {
 
       Events.on(mouseConstraint, 'mousedown', function(event) {
           const mouseConstraint = event.source;
-          console.log('mouseConstraint', mouseConstraint)
           const bodies = engine.world.bodies;
           if (mouseConstraint.body) {
             for (let i = bodies.length-1; i >= 0; i--) {
-              const body = bodies[i];
-              console.log('body', body)
+              const body:any = bodies[i];
               if (Matter.Bounds.contains(body.bounds, mouseConstraint.mouse.position)) {
-                const bodyUrl = body.url;
+
+                const bodyUrl = typeof body.url ? body.url : null;
                 // Hyperlinking feature
-                if (bodyUrl != undefined) {
+                if (bodyUrl) {
                   window.location.href = bodyUrl;
                 }
                 break;
