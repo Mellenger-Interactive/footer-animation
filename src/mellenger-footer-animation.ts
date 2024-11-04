@@ -4,19 +4,6 @@ interface ICustomBodyDefinition extends IChamferableBodyDefinition {
   url?: string;
 }
 
-interface IRendererOptionsWithBounds extends IRendererOptions {
-  bounds?: {
-      min: {
-          x: number;
-          y: number;
-      };
-      max: {
-          x: number;
-          y: number;
-      };
-  };
-}
-
 interface Sizes {
   [key: string]: { width: number; height: number };
 }
