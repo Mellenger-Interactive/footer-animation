@@ -1,7 +1,20 @@
-import Matter, { Vector, IChamferableBodyDefinition } from "matter-js";
+import Matter, { Vector, IChamferableBodyDefinition, IRendererOptions } from "matter-js";
 
 interface ICustomBodyDefinition extends IChamferableBodyDefinition {
   url?: string;
+}
+
+interface IRendererOptionsWithBounds extends IRendererOptions {
+  bounds?: {
+      min: {
+          x: number;
+          y: number;
+      };
+      max: {
+          x: number;
+          y: number;
+      };
+  };
 }
 
 interface Sizes {
@@ -406,7 +419,7 @@ class MellengerFooterAnimation extends HTMLElement {
 
       // Renderer
       const canvasWidth = window.innerWidth;
-      const canvasHeight = window.innerWidth <= 768 ? 912 : 1400;
+      const canvasHeight = canvasWidth * 0.8
 
       const render = Render.create({
         element: container,
@@ -416,8 +429,9 @@ class MellengerFooterAnimation extends HTMLElement {
           height: canvasHeight,
           wireframes: false,
           pixelRatio: 2,
-          background: "#0031AF"
-        }
+          background: "#0031AF",
+
+        } as IRendererOptions
       });
 
       const topWall = Bodies.rectangle(canvasWidth / 2, canvasHeight, canvasWidth * 2, 2, {
@@ -483,7 +497,6 @@ class MellengerFooterAnimation extends HTMLElement {
 
       Body.scale(logoOutline, canvasWidth / 1370, canvasWidth / 1370)
       Composite.add(engine.world, [logoOutline, logo]);
-
 
 
       // Shapes
@@ -699,7 +712,7 @@ class MellengerFooterAnimation extends HTMLElement {
           hasImage: false,
           text: "© 2024 Mellenger Interactive.",
           positionX: canvasWidth > 768 ? canvasWidth * 0.9 : canvasWidth * 0.8,
-          positionY: canvasWidth > 768 ? 1100 : 750,
+          positionY: canvasHeight * 0.65,
           size: "mdrec",
           color: 'lightPeriwinkle',
           link: null
@@ -708,7 +721,7 @@ class MellengerFooterAnimation extends HTMLElement {
           hasImage: true,
           text: "https://cdn.prod.website-files.com/66f46f702cf0b6ef3be0db49/66fc829c9758c3e9b1586dae_Social%20icon.svg",
           positionX: canvasWidth > 768 ? canvasWidth * 0.9 : canvasWidth * 0.8,
-          positionY: canvasWidth > 768 ? 1050 : 700,
+          positionY: canvasHeight * 0.65 - 100,
           size: "xssq",
           color: 'midnightBlue',
           link: "https://www.instagram.com/mellengerinteractive"
@@ -717,7 +730,7 @@ class MellengerFooterAnimation extends HTMLElement {
           hasImage: true,
           text: "https://cdn.prod.website-files.com/66f46f702cf0b6ef3be0db49/66fc829c9758c3e9b1586d57_Social%20icon-1.svg",
           positionX: canvasWidth > 768 ? canvasWidth * 0.95 : canvasWidth * 0.6,
-          positionY: canvasWidth > 768 ? 1050 : 700,
+          positionY: canvasHeight * 0.65 - 100,
           size: "xssq",
           color: 'brightAzure',
           link: "https://ca.linkedin.com/company/mellenger-interactive-ltd"
@@ -787,6 +800,10 @@ class MellengerFooterAnimation extends HTMLElement {
 
       // run the engine
       Runner.run(runner, engine);
+
+      window.addEventListener('resize', () => {
+        window.location.reload();
+      });
 
     // }
   }
