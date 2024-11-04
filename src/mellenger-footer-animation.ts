@@ -766,7 +766,6 @@ class MellengerFooterAnimation extends HTMLElement {
             for (let i = bodies.length-1; i >= 0; i--) {
               const body:any = bodies[i];
               if (Matter.Bounds.contains(body.bounds, mouseConstraint.mouse.position)) {
-
                 const bodyUrl = typeof body.url ? body.url : null;
                 // Hyperlinking feature
                 if (bodyUrl) {
