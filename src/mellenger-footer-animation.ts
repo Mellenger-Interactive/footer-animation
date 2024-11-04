@@ -536,7 +536,7 @@ class MellengerFooterAnimation extends HTMLElement {
       };
 
 
-      const createBody = (hasImage:boolean = true, text:string = '', x:number, y:number, size:string, colourName:string, link:string, scale:number, bodyAngle:number) => {
+      const createBody = (hasImage:boolean = true, text:string = '', x:number, y:number, size:string, colourName:string, link:string | null, scale:number, bodyAngle:number) => {
 
         const {
           width,
@@ -615,6 +615,8 @@ class MellengerFooterAnimation extends HTMLElement {
           });
           Body.setAngle(bodyText, body.angle);
         });
+
+        return body;
       }
 
       const createTextImage = (string:string, colourName:string) => {
@@ -725,15 +727,26 @@ class MellengerFooterAnimation extends HTMLElement {
       ];
 
       links.forEach(link => {
-        createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, String(link.link), 1, 0);
+        createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, link.link, 1, 0);
       });
+
+      let initialBox;
+
+      const generateRandomBox = ( x: number, y: number ) => {
+        const size = sizes.xssq
+        const randomColourName = Object.keys(colours)[Math.floor(Math.random() * Object.keys(colours).length)];
+
+        return createBody(false, " ", x, y, String(size), randomColourName, null, 1, 0);
+      }
+
+      initialBox = generateRandomBox(canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6, -250);
 
       //Mouse
       const mouse = Mouse.create(render.canvas);
       const mouseConstraint = MouseConstraint.create(engine, {
         mouse: mouse,
         constraint: {
-          stiffness: 1.5,
+          stiffness: 1,
           render: {
             visible: false
           }
@@ -777,6 +790,20 @@ class MellengerFooterAnimation extends HTMLElement {
           }
         });
 
+      const canvas = document.querySelector('mellenger-footer-animation canvas'); 
+      canvas?.addEventListener("dblclick", (event) => {
+        const mouseEvent = event as MouseEvent;
+        const rect = canvas.getBoundingClientRect();
+        const mousePosition = { x: mouseEvent.clientX - rect.left, y: mouseEvent.clientY - rect.top};
+        const bodies = Composite.allBodies(engine.world);
+
+        const clickedBody = bodies.find(body => Matter.Bounds.contains(body.bounds, mousePosition));
+    
+        if (clickedBody === initialBox) {
+            generateRandomBox(initialBox.position.x, initialBox.position.y);
+        }
+      });
+      
       render.mouse = mouse;
 
       // run the renderer
