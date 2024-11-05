@@ -730,24 +730,26 @@ class MellengerFooterAnimation extends HTMLElement {
         createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, link.link, 1, 0);
       });
 
-      const initialBox = createBody(false, " ", canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6, -250, "medsq", "paleSkyBlue", null, 1, 0);
+      const octoboiImage = "https://mellenger-interactive.github.io/footer-animation/images/wand.webp"
+
+      const staff = [
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/andrew.webp" },
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/chino.webp" },
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/codt.webp" },
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/danika.webp" },
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/dawn.webp" },
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/doug.webp" },
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/francois.webp" },
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/megan.webp" },
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/muneeba.webp" },
+        { image: "https://mellenger-interactive.github.io/footer-animation/images/philippe.webp" }
+      ]
+
+      const initialBox = createBody(true, octoboiImage, canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6, -250, "medsq", "paleSkyBlue", null, 1, 0);
 
       let currentStaffIndex = 0;
 
       const generateStaffBox = ( x: number, y: number ) => {
-        const staff = [
-          { image: "./src/images/andrew.webp" },
-          { image: "./src/images/chino.webp" },
-          { image: "./src/images/codt.webp" },
-          { image: "./src/images/danika.webp" },
-          { image: "./src/images/dawn.webp" },
-          { image: "./src/images/doug.webp" },
-          { image: "./src/images/francois.webp" },
-          { image: "./src/images/megan.webp" },
-          { image: "./src/images/muneeba.webp" },
-          { image: "./src/images/philippe.webp" }
-        ]
-
         if (currentStaffIndex >= staff.length) {
           return null;
         }
@@ -819,7 +821,7 @@ class MellengerFooterAnimation extends HTMLElement {
 
         const clickedBody = bodies.find(body => Matter.Bounds.contains(body.bounds, mousePosition));
     
-        if (clickedBody === initialBox) {
+        if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
             generateStaffBox(initialBox.position.x, initialBox.position.y);
         }
       });
