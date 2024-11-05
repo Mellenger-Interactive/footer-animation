@@ -536,7 +536,7 @@ class MellengerFooterAnimation extends HTMLElement {
       };
 
 
-      const createBody = (hasImage:boolean = true, text:string = '', x:number, y:number, size:string, colourName:string, link:string | null, scale:number, bodyAngle:number) => {
+      const createBody = (hasImage:boolean = true, text:string = '', x:number, y:number, size:string, colourName:string, link:string | null, scale:number, bodyAngle:number, xScale?:number, yScale?:number) => {
 
         const {
           width,
@@ -580,8 +580,8 @@ class MellengerFooterAnimation extends HTMLElement {
           render: {
             sprite: {
               texture: String(hasImage ? text : createTextImage(text, colourName)),
-              xScale: hasImage ? .5 : 0.75,
-              yScale: hasImage ? .5 : 0.75
+              xScale: hasImage ? xScale : 0.75,
+              yScale: hasImage ? yScale : 0.75
             },
           },
           url: link
@@ -650,7 +650,9 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: -250,
           size: "lgrec",
           color: 'brightAzure',
-          link: "/services"
+          link: "/services",
+          xScale: 0,
+          yScale: 0
         },
         {
           hasImage: false,
@@ -659,7 +661,9 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: -290,
           size: "lgsq",
           color: 'skyBlue',
-          link: "/our-work"
+          link: "/our-work",
+          xScale: 0,
+          yScale: 0
         },
         {
           hasImage: false,
@@ -668,7 +672,9 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: -250,
           size: "mdsq",
           color: 'paleSkyBlue',
-          link: "/about-us"
+          link: "/about-us",
+          xScale: 0,
+          yScale: 0
         },
         {
           hasImage: false,
@@ -686,7 +692,9 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: -250,
           size: "smsq",
           color: 'brightAzure',
-          link: "/blog"
+          link: "/blog",
+          xScale: 0,
+          yScale: 0
         },
         {
           hasImage: false,
@@ -695,7 +703,9 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: -250,
           size: "mdrec",
           color: 'midnightBlue',
-          link: "/services"
+          link: "/services",
+          xScale: 0,
+          yScale: 0
         },
         {
           hasImage: false,
@@ -704,7 +714,9 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: canvasHeight * 0.65,
           size: "mdrec",
           color: 'lightPeriwinkle',
-          link: null
+          link: null,
+          xScale: 0,
+          yScale: 0
         },
         {
           hasImage: true,
@@ -713,7 +725,9 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: canvasHeight * 0.65 - 100,
           size: "xssq",
           color: 'midnightBlue',
-          link: "https://www.instagram.com/mellengerinteractive"
+          link: "https://www.instagram.com/mellengerinteractive",
+          xScale: 1,
+          yScale: 1
         },
         {
           hasImage: true,
@@ -722,12 +736,14 @@ class MellengerFooterAnimation extends HTMLElement {
           positionY: canvasHeight * 0.65 - 100,
           size: "xssq",
           color: 'brightAzure',
-          link: "https://ca.linkedin.com/company/mellenger-interactive-ltd"
+          link: "https://ca.linkedin.com/company/mellenger-interactive-ltd",
+          xScale: 1,
+          yScale: 1
         }
       ];
 
       links.forEach(link => {
-        createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, link.link, 1, 0);
+        createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, link.link, 1, 0, link.xScale, link.yScale);
       });
 
       const octoboiImage = "https://mellenger-interactive.github.io/footer-animation/images/wand.webp"
@@ -745,7 +761,7 @@ class MellengerFooterAnimation extends HTMLElement {
         { image: "https://mellenger-interactive.github.io/footer-animation/images/philippe.webp" }
       ]
 
-      const initialBox = createBody(true, octoboiImage, canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6, -250, "medsq", "paleSkyBlue", null, 1, 0);
+      const initialBox = createBody(true, octoboiImage, canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6, -250, "medsq", "paleSkyBlue", null, 1, 0, 0.6, 0.6);
 
       let currentStaffIndex = 0;
 
@@ -756,7 +772,7 @@ class MellengerFooterAnimation extends HTMLElement {
 
         const staffMember = staff[currentStaffIndex];
 
-        const staffBox = createBody(true, staffMember.image, x, y, "mdsq", "paleSkyBlue", null, 1, 0);
+        const staffBox = createBody(true, staffMember.image, x, y, "mdsq", "paleSkyBlue", null, 1, 0, 0.6, 0.6);
 
         currentStaffIndex++;
 
