@@ -580,8 +580,8 @@ class MellengerFooterAnimation extends HTMLElement {
           render: {
             sprite: {
               texture: String(hasImage ? text : createTextImage(text, colourName)),
-              xScale: hasImage ? 1 : 0.75,
-              yScale: hasImage ? 1 : 0.75
+              xScale: hasImage ? .5 : 0.75,
+              yScale: hasImage ? .5 : 0.75
             },
           },
           url: link
@@ -730,16 +730,36 @@ class MellengerFooterAnimation extends HTMLElement {
         createBody(link.hasImage, link.text, link.positionX, link.positionY, link.size, link.color, link.link, 1, 0);
       });
 
-      let initialBox;
+      const initialBox = createBody(false, " ", canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6, -250, "medsq", "paleSkyBlue", null, 1, 0);
 
-      const generateRandomBox = ( x: number, y: number ) => {
-        const size = sizes.xssq
-        const randomColourName = Object.keys(colours)[Math.floor(Math.random() * Object.keys(colours).length)];
+      let currentStaffIndex = 0;
 
-        return createBody(false, " ", x, y, String(size), randomColourName, null, 1, 0);
+      const generateStaffBox = ( x: number, y: number ) => {
+        const staff = [
+          { image: "./src/images/andrew.webp" },
+          { image: "./src/images/chino.webp" },
+          { image: "./src/images/codt.webp" },
+          { image: "./src/images/danika.webp" },
+          { image: "./src/images/dawn.webp" },
+          { image: "./src/images/doug.webp" },
+          { image: "./src/images/francois.webp" },
+          { image: "./src/images/megan.webp" },
+          { image: "./src/images/muneeba.webp" },
+          { image: "./src/images/philippe.webp" }
+        ]
+
+        if (currentStaffIndex >= staff.length) {
+          return null;
+        }
+
+        const staffMember = staff[currentStaffIndex];
+
+        const staffBox = createBody(true, staffMember.image, x, y, "mdsq", "paleSkyBlue", null, 1, 0);
+
+        currentStaffIndex++;
+
+         return staffBox;
       }
-
-      initialBox = generateRandomBox(canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6, -250);
 
       //Mouse
       const mouse = Mouse.create(render.canvas);
@@ -800,7 +820,7 @@ class MellengerFooterAnimation extends HTMLElement {
         const clickedBody = bodies.find(body => Matter.Bounds.contains(body.bounds, mousePosition));
     
         if (clickedBody === initialBox) {
-            generateRandomBox(initialBox.position.x, initialBox.position.y);
+            generateStaffBox(initialBox.position.x, initialBox.position.y);
         }
       });
       
