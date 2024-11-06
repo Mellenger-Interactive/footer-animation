@@ -861,4 +861,5 @@ class MellengerFooterAnimation extends HTMLElement {
   }
 }
 
+customElements.define('mellenger-footer-animation', MellengerFooterAnimation);
 export default MellengerFooterAnimation;
