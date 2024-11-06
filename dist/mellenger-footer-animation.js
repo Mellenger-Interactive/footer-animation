@@ -1,6 +1,6 @@
-var se = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
-function pe(J) {
-  return J && J.__esModule && Object.prototype.hasOwnProperty.call(J, "default") ? J.default : J;
+var oe = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
+function pe(b) {
+  return b && b.__esModule && Object.prototype.hasOwnProperty.call(b, "default") ? b.default : b;
 }
 var ge = { exports: {} };
 /*!
@@ -30,10 +30,10 @@ var ge = { exports: {} };
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-(function(J, oe) {
+(function(b, le) {
   (function(L, g) {
-    J.exports = g();
-  })(se, function() {
+    b.exports = g();
+  })(oe, function() {
     return (
       /******/
       function(T) {
@@ -231,7 +231,7 @@ var ge = { exports: {} };
             }, g.getDecomp = function() {
               var f = g._decomp;
               try {
-                !f && typeof window < "u" && (f = window.decomp), !f && typeof se < "u" && (f = se.decomp);
+                !f && typeof window < "u" && (f = window.decomp), !f && typeof oe < "u" && (f = oe.decomp);
               } catch {
                 f = null;
               }
@@ -1027,12 +1027,12 @@ var ge = { exports: {} };
             }, e._overlapAxes = function(u, r, t, n) {
               var i = r.length, l = t.length, p = r[0].x, y = r[0].y, w = t[0].x, M = t[0].y, c = n.length, m = Number.MAX_VALUE, h = 0, x, S, d, P, C, B;
               for (C = 0; C < c; C++) {
-                var I = n[C], A = I.x, D = I.y, E = p * A + y * D, R = w * A + M * D, V = E, W = R;
+                var I = n[C], A = I.x, D = I.y, E = p * A + y * D, F = w * A + M * D, V = E, U = F;
                 for (B = 1; B < i; B += 1)
                   P = r[B].x * A + r[B].y * D, P > V ? V = P : P < E && (E = P);
                 for (B = 1; B < l; B += 1)
-                  P = t[B].x * A + t[B].y * D, P > W ? W = P : P < R && (R = P);
-                if (S = V - R, d = W - E, x = S < d ? S : d, x < m && (m = x, h = C, x <= 0))
+                  P = t[B].x * A + t[B].y * D, P > U ? U = P : P < F && (F = P);
+                if (S = V - F, d = U - E, x = S < d ? S : d, x < m && (m = x, h = C, x <= 0))
                   break;
               }
               u.axis = n[h], u.overlap = m;
@@ -1123,13 +1123,13 @@ var ge = { exports: {} };
                 if (n && (y = o.add(n.position, l)), i && (w = o.add(i.position, p)), !(!y || !w)) {
                   var M = o.sub(y, w), c = o.magnitude(M);
                   c < e._minLength && (c = e._minLength);
-                  var m = (c - r.length) / c, h = r.stiffness >= 1 || r.length === 0, x = h ? r.stiffness * t : r.stiffness * t * t, S = r.damping * t, d = o.mult(M, m * x), P = (n ? n.inverseMass : 0) + (i ? i.inverseMass : 0), C = (n ? n.inverseInertia : 0) + (i ? i.inverseInertia : 0), B = P + C, I, A, D, E, R;
+                  var m = (c - r.length) / c, h = r.stiffness >= 1 || r.length === 0, x = h ? r.stiffness * t : r.stiffness * t * t, S = r.damping * t, d = o.mult(M, m * x), P = (n ? n.inverseMass : 0) + (i ? i.inverseMass : 0), C = (n ? n.inverseInertia : 0) + (i ? i.inverseInertia : 0), B = P + C, I, A, D, E, F;
                   if (S > 0) {
                     var V = o.create();
-                    D = o.div(M, c), R = o.sub(
+                    D = o.div(M, c), F = o.sub(
                       i && o.sub(i.position, i.positionPrev) || V,
                       n && o.sub(n.position, n.positionPrev) || V
-                    ), E = o.dot(D, R);
+                    ), E = o.dot(D, F);
                   }
                   n && !n.isStatic && (A = n.inverseMass / P, n.constraintImpulse.x -= d.x * A, n.constraintImpulse.y -= d.y * A, n.position.x -= d.x * A, n.position.y -= d.y * A, S > 0 && (n.positionPrev.x -= S * D.x * E * A, n.positionPrev.y -= S * D.y * E * A), I = o.cross(l, d) / B * e._torqueDampen * n.inverseInertia * (1 - r.angularStiffness), n.constraintImpulse.angle -= I, n.angle -= I), i && !i.isStatic && (A = i.inverseMass / P, i.constraintImpulse.x += d.x * A, i.constraintImpulse.y += d.y * A, i.position.x += d.x * A, i.position.y += d.y * A, S > 0 && (i.positionPrev.x += S * D.x * E * A, i.positionPrev.y += S * D.y * E * A), I = o.cross(p, d) / B * e._torqueDampen * i.inverseInertia * (1 - r.angularStiffness), i.constraintImpulse.angle += I, i.angle += I);
                 }
@@ -1275,21 +1275,21 @@ var ge = { exports: {} };
                     vertices: S
                   });
                 else {
-                  var A = S.map(function(k) {
-                    return [k.x, k.y];
+                  var A = S.map(function(R) {
+                    return [R.x, R.y];
                   });
                   w.makeCCW(A), l !== !1 && w.removeCollinearPoints(A, l), y !== !1 && w.removeDuplicatePoints && w.removeDuplicatePoints(A, y);
                   var D = w.quickDecomp(A);
                   for (d = 0; d < D.length; d++) {
-                    var E = D[d], R = E.map(function(k) {
+                    var E = D[d], F = E.map(function(R) {
                       return {
-                        x: k[0],
-                        y: k[1]
+                        x: R[0],
+                        y: R[1]
                       };
                     });
-                    p > 0 && f.area(R) < p || m.push({
-                      position: f.centre(R),
-                      vertices: R
+                    p > 0 && f.area(F) < p || m.push({
+                      position: f.centre(F),
+                      vertices: F
                     });
                   }
                 }
@@ -1298,15 +1298,15 @@ var ge = { exports: {} };
               if (i) {
                 var V = 5;
                 for (d = 0; d < m.length; d++) {
-                  var W = m[d];
+                  var U = m[d];
                   for (P = d + 1; P < m.length; P++) {
-                    var G = m[P];
-                    if (v.overlaps(W.bounds, G.bounds)) {
-                      var F = W.vertices, H = G.vertices;
-                      for (C = 0; C < W.vertices.length; C++)
-                        for (I = 0; I < G.vertices.length; I++) {
-                          var U = a.magnitudeSquared(a.sub(F[(C + 1) % F.length], H[I])), O = a.magnitudeSquared(a.sub(F[C], H[(I + 1) % H.length]));
-                          U < V && O < V && (F[C].isInternal = !0, H[I].isInternal = !0);
+                    var N = m[P];
+                    if (v.overlaps(U.bounds, N.bounds)) {
+                      var z = U.vertices, G = N.vertices;
+                      for (C = 0; C < U.vertices.length; C++)
+                        for (I = 0; I < N.vertices.length; I++) {
+                          var k = a.magnitudeSquared(a.sub(z[(C + 1) % z.length], G[I])), O = a.magnitudeSquared(a.sub(z[C], G[(I + 1) % G.length]));
+                          k < V && O < V && (z[C].isInternal = !0, G[I].isInternal = !0);
                         }
                     }
                   }
@@ -1349,8 +1349,8 @@ var ge = { exports: {} };
                       B && (n[i++] = B);
                     } else
                       for (var I = x > 1 ? 1 : 0, A = C > 1 ? 1 : 0, D = I; D < x; D++)
-                        for (var E = y.parts[D], w = E.bounds, R = A; R < C; R++) {
-                          var V = d.parts[R], P = V.bounds;
+                        for (var E = y.parts[D], w = E.bounds, F = A; F < C; F++) {
+                          var V = d.parts[F], P = V.bounds;
                           if (!(w.min.x > P.max.x || w.max.x < P.min.x || w.max.y < P.min.y || w.min.y > P.max.y)) {
                             var B = t(E, V, v);
                             B && (n[i++] = B);
@@ -1685,27 +1685,27 @@ var ge = { exports: {} };
               for (c = 0; c < y; c++) {
                 var h = v[c];
                 if (!(!h.isActive || h.isSensor)) {
-                  var x = h.collision, S = x.parentA, d = x.parentB, P = x.normal.x, C = x.normal.y, B = x.tangent.x, I = x.tangent.y, A = h.inverseMass, D = h.friction * h.frictionStatic * l, E = h.contacts, R = h.contactCount, V = 1 / R, W = S.position.x - S.positionPrev.x, G = S.position.y - S.positionPrev.y, F = S.angle - S.anglePrev, H = d.position.x - d.positionPrev.x, U = d.position.y - d.positionPrev.y, O = d.angle - d.anglePrev;
-                  for (m = 0; m < R; m++) {
-                    var k = E[m], N = k.vertex, z = N.x - S.position.x, j = N.y - S.position.y, Y = N.x - d.position.x, Z = N.y - d.position.y, X = W - j * F, _ = G + z * F, ie = H - Z * O, ae = U + Y * O, Q = X - ie, b = _ - ae, q = P * Q + C * b, K = B * Q + I * b, le = h.separation + q, re = Math.min(le, 1);
-                    re = le < 0 ? 0 : re;
-                    var fe = re * D;
-                    K < -fe || K > fe ? (M = K > 0 ? K : -K, w = h.friction * (K > 0 ? 1 : -1) * t, w < -M ? w = -M : w > M && (w = M)) : (w = K, M = p);
-                    var ce = z * C - j * P, ue = Y * C - Z * P, ve = V / (A + S.inverseInertia * ce * ce + d.inverseInertia * ue * ue), ee = (1 + h.restitution) * q * ve;
-                    if (w *= ve, q < n)
-                      k.normalImpulse = 0;
+                  var x = h.collision, S = x.parentA, d = x.parentB, P = x.normal.x, C = x.normal.y, B = x.tangent.x, I = x.tangent.y, A = h.inverseMass, D = h.friction * h.frictionStatic * l, E = h.contacts, F = h.contactCount, V = 1 / F, U = S.position.x - S.positionPrev.x, N = S.position.y - S.positionPrev.y, z = S.angle - S.anglePrev, G = d.position.x - d.positionPrev.x, k = d.position.y - d.positionPrev.y, O = d.angle - d.anglePrev;
+                  for (m = 0; m < F; m++) {
+                    var R = E[m], H = R.vertex, W = H.x - S.position.x, K = H.y - S.position.y, Z = H.x - d.position.x, J = H.y - d.position.y, X = U - K * z, ae = N + W * z, re = G - J * O, q = k + Z * O, _ = X - re, ee = ae - q, Q = P * _ + C * ee, Y = B * _ + I * ee, j = h.separation + Q, se = Math.min(j, 1);
+                    se = j < 0 ? 0 : se;
+                    var fe = se * D;
+                    Y < -fe || Y > fe ? (M = Y > 0 ? Y : -Y, w = h.friction * (Y > 0 ? 1 : -1) * t, w < -M ? w = -M : w > M && (w = M)) : (w = Y, M = p);
+                    var ce = W * C - K * P, ue = Z * C - J * P, ve = V / (A + S.inverseInertia * ce * ce + d.inverseInertia * ue * ue), te = (1 + h.restitution) * Q * ve;
+                    if (w *= ve, Q < n)
+                      R.normalImpulse = 0;
                     else {
-                      var xe = k.normalImpulse;
-                      k.normalImpulse += ee, k.normalImpulse > 0 && (k.normalImpulse = 0), ee = k.normalImpulse - xe;
+                      var xe = R.normalImpulse;
+                      R.normalImpulse += te, R.normalImpulse > 0 && (R.normalImpulse = 0), te = R.normalImpulse - xe;
                     }
-                    if (K < -i || K > i)
-                      k.tangentImpulse = 0;
+                    if (Y < -i || Y > i)
+                      R.tangentImpulse = 0;
                     else {
-                      var me = k.tangentImpulse;
-                      k.tangentImpulse += w, k.tangentImpulse < -M && (k.tangentImpulse = -M), k.tangentImpulse > M && (k.tangentImpulse = M), w = k.tangentImpulse - me;
+                      var me = R.tangentImpulse;
+                      R.tangentImpulse += w, R.tangentImpulse < -M && (R.tangentImpulse = -M), R.tangentImpulse > M && (R.tangentImpulse = M), w = R.tangentImpulse - me;
                     }
-                    var te = P * ee + B * w, ne = C * ee + I * w;
-                    S.isStatic || S.isSleeping || (S.positionPrev.x += te * S.inverseMass, S.positionPrev.y += ne * S.inverseMass, S.anglePrev += (z * ne - j * te) * S.inverseInertia), d.isStatic || d.isSleeping || (d.positionPrev.x -= te * d.inverseMass, d.positionPrev.y -= ne * d.inverseMass, d.anglePrev -= (Y * ne - Z * te) * d.inverseInertia);
+                    var ne = P * te + B * w, ie = C * te + I * w;
+                    S.isStatic || S.isSleeping || (S.positionPrev.x += ne * S.inverseMass, S.positionPrev.y += ie * S.inverseMass, S.anglePrev += (W * ie - K * ne) * S.inverseInertia), d.isStatic || d.isSleeping || (d.positionPrev.x -= ne * d.inverseMass, d.positionPrev.y -= ie * d.inverseMass, d.anglePrev -= (Z * ie - J * ne) * d.inverseInertia);
                   }
                 }
               }
@@ -2157,8 +2157,8 @@ var ge = { exports: {} };
                 var P = m[d], C = P.bounds ? P.bounds.min : P.min || P.position || P, B = P.bounds ? P.bounds.max : P.max || P.position || P;
                 C && B && (C.x < S.min.x && (S.min.x = C.x), B.x > S.max.x && (S.max.x = B.x), C.y < S.min.y && (S.min.y = C.y), B.y > S.max.y && (S.max.y = B.y));
               }
-              var I = S.max.x - S.min.x + 2 * h.x, A = S.max.y - S.min.y + 2 * h.y, D = c.canvas.height, E = c.canvas.width, R = E / D, V = I / A, W = 1, G = 1;
-              V > R ? G = V / R : W = R / V, c.options.hasBounds = !0, c.bounds.min.x = S.min.x, c.bounds.max.x = S.min.x + I * W, c.bounds.min.y = S.min.y, c.bounds.max.y = S.min.y + A * G, x && (c.bounds.min.x += I * 0.5 - I * W * 0.5, c.bounds.max.x += I * 0.5 - I * W * 0.5, c.bounds.min.y += A * 0.5 - A * G * 0.5, c.bounds.max.y += A * 0.5 - A * G * 0.5), c.bounds.min.x -= h.x, c.bounds.max.x -= h.x, c.bounds.min.y -= h.y, c.bounds.max.y -= h.y, c.mouse && (r.setScale(c.mouse, {
+              var I = S.max.x - S.min.x + 2 * h.x, A = S.max.y - S.min.y + 2 * h.y, D = c.canvas.height, E = c.canvas.width, F = E / D, V = I / A, U = 1, N = 1;
+              V > F ? N = V / F : U = F / V, c.options.hasBounds = !0, c.bounds.min.x = S.min.x, c.bounds.max.x = S.min.x + I * U, c.bounds.min.y = S.min.y, c.bounds.max.y = S.min.y + A * N, x && (c.bounds.min.x += I * 0.5 - I * U * 0.5, c.bounds.max.x += I * 0.5 - I * U * 0.5, c.bounds.min.y += A * 0.5 - A * N * 0.5, c.bounds.max.y += A * 0.5 - A * N * 0.5), c.bounds.min.x -= h.x, c.bounds.max.x -= h.x, c.bounds.min.y -= h.y, c.bounds.max.y -= h.y, c.mouse && (r.setScale(c.mouse, {
                 x: (c.bounds.max.x - c.bounds.min.x) / c.canvas.width,
                 y: (c.bounds.max.y - c.bounds.min.y) / c.canvas.height
               }), r.setOffset(c.mouse, c.bounds.min));
@@ -2175,25 +2175,25 @@ var ge = { exports: {} };
             }, e.endViewTransform = function(c) {
               c.context.setTransform(c.options.pixelRatio, 0, 0, c.options.pixelRatio, 0, 0);
             }, e.world = function(c, m) {
-              var h = o.now(), x = c.engine, S = x.world, d = c.canvas, P = c.context, C = c.options, B = c.timing, I = s.allBodies(S), A = s.allConstraints(S), D = C.wireframes ? C.wireframeBackground : C.background, E = [], R = [], V, W = {
+              var h = o.now(), x = c.engine, S = x.world, d = c.canvas, P = c.context, C = c.options, B = c.timing, I = s.allBodies(S), A = s.allConstraints(S), D = C.wireframes ? C.wireframeBackground : C.background, E = [], F = [], V, U = {
                 timestamp: x.timing.timestamp
               };
-              if (a.trigger(c, "beforeRender", W), c.currentBackground !== D && M(c, D), P.globalCompositeOperation = "source-in", P.fillStyle = "transparent", P.fillRect(0, 0, d.width, d.height), P.globalCompositeOperation = "source-over", C.hasBounds) {
+              if (a.trigger(c, "beforeRender", U), c.currentBackground !== D && M(c, D), P.globalCompositeOperation = "source-in", P.fillStyle = "transparent", P.fillRect(0, 0, d.width, d.height), P.globalCompositeOperation = "source-over", C.hasBounds) {
                 for (V = 0; V < I.length; V++) {
-                  var G = I[V];
-                  v.overlaps(G.bounds, c.bounds) && E.push(G);
+                  var N = I[V];
+                  v.overlaps(N.bounds, c.bounds) && E.push(N);
                 }
                 for (V = 0; V < A.length; V++) {
-                  var F = A[V], H = F.bodyA, U = F.bodyB, O = F.pointA, k = F.pointB;
-                  H && (O = u.add(H.position, F.pointA)), U && (k = u.add(U.position, F.pointB)), !(!O || !k) && (v.contains(c.bounds, O) || v.contains(c.bounds, k)) && R.push(F);
+                  var z = A[V], G = z.bodyA, k = z.bodyB, O = z.pointA, R = z.pointB;
+                  G && (O = u.add(G.position, z.pointA)), k && (R = u.add(k.position, z.pointB)), !(!O || !R) && (v.contains(c.bounds, O) || v.contains(c.bounds, R)) && F.push(z);
                 }
                 e.startViewTransform(c), c.mouse && (r.setScale(c.mouse, {
                   x: (c.bounds.max.x - c.bounds.min.x) / c.options.width,
                   y: (c.bounds.max.y - c.bounds.min.y) / c.options.height
                 }), r.setOffset(c.mouse, c.bounds.min));
               } else
-                R = A, E = I, c.options.pixelRatio !== 1 && c.context.setTransform(c.options.pixelRatio, 0, 0, c.options.pixelRatio, 0, 0);
-              !C.wireframes || x.enableSleeping && C.showSleeping ? e.bodies(c, E, P) : (C.showConvexHulls && e.bodyConvexHulls(c, E, P), e.bodyWireframes(c, E, P)), C.showBounds && e.bodyBounds(c, E, P), (C.showAxes || C.showAngleIndicator) && e.bodyAxes(c, E, P), C.showPositions && e.bodyPositions(c, E, P), C.showVelocity && e.bodyVelocity(c, E, P), C.showIds && e.bodyIds(c, E, P), C.showSeparations && e.separations(c, x.pairs.list, P), C.showCollisions && e.collisions(c, x.pairs.list, P), C.showVertexNumbers && e.vertexNumbers(c, E, P), C.showMousePosition && e.mousePosition(c, c.mouse, P), e.constraints(R, P), C.hasBounds && e.endViewTransform(c), a.trigger(c, "afterRender", W), B.lastElapsed = o.now() - h;
+                F = A, E = I, c.options.pixelRatio !== 1 && c.context.setTransform(c.options.pixelRatio, 0, 0, c.options.pixelRatio, 0, 0);
+              !C.wireframes || x.enableSleeping && C.showSleeping ? e.bodies(c, E, P) : (C.showConvexHulls && e.bodyConvexHulls(c, E, P), e.bodyWireframes(c, E, P)), C.showBounds && e.bodyBounds(c, E, P), (C.showAxes || C.showAngleIndicator) && e.bodyAxes(c, E, P), C.showPositions && e.bodyPositions(c, E, P), C.showVelocity && e.bodyVelocity(c, E, P), C.showIds && e.bodyIds(c, E, P), C.showSeparations && e.separations(c, x.pairs.list, P), C.showCollisions && e.collisions(c, x.pairs.list, P), C.showVertexNumbers && e.vertexNumbers(c, E, P), C.showMousePosition && e.mousePosition(c, c.mouse, P), e.constraints(F, P), C.hasBounds && e.endViewTransform(c), a.trigger(c, "afterRender", U), B.lastElapsed = o.now() - h;
             }, e.stats = function(c, m, h) {
               for (var x = c.engine, S = x.world, d = s.allBodies(S), P = 0, C = 55, B = 44, I = 0, A = 0, D = 0; D < d.length; D += 1)
                 P += d[D].parts.length;
@@ -2205,18 +2205,18 @@ var ge = { exports: {} };
                 Pair: x.pairs.list.length
               };
               m.fillStyle = "#0e0f19", m.fillRect(I, A, C * 5.5, B), m.font = "12px Arial", m.textBaseline = "top", m.textAlign = "right";
-              for (var R in E) {
-                var V = E[R];
-                m.fillStyle = "#aaa", m.fillText(R, I + C, A + 8), m.fillStyle = "#eee", m.fillText(V, I + C, A + 26), I += C;
+              for (var F in E) {
+                var V = E[F];
+                m.fillStyle = "#aaa", m.fillText(F, I + C, A + 8), m.fillStyle = "#eee", m.fillText(V, I + C, A + 26), I += C;
               }
             }, e.performance = function(c, m) {
-              var h = c.engine, x = c.timing, S = x.deltaHistory, d = x.elapsedHistory, P = x.timestampElapsedHistory, C = x.engineDeltaHistory, B = x.engineUpdatesHistory, I = x.engineElapsedHistory, A = h.timing.lastUpdatesPerFrame, D = h.timing.lastDelta, E = l(S), R = l(d), V = l(C), W = l(B), G = l(I), F = l(P), H = F / E || 0, U = Math.round(E / D), O = 1e3 / E || 0, k = 4, N = 12, z = 60, j = 34, Y = 10, Z = 69;
-              m.fillStyle = "#0e0f19", m.fillRect(0, 50, N * 5 + z * 6 + 22, j), e.status(
+              var h = c.engine, x = c.timing, S = x.deltaHistory, d = x.elapsedHistory, P = x.timestampElapsedHistory, C = x.engineDeltaHistory, B = x.engineUpdatesHistory, I = x.engineElapsedHistory, A = h.timing.lastUpdatesPerFrame, D = h.timing.lastDelta, E = l(S), F = l(d), V = l(C), U = l(B), N = l(I), z = l(P), G = z / E || 0, k = Math.round(E / D), O = 1e3 / E || 0, R = 4, H = 12, W = 60, K = 34, Z = 10, J = 69;
+              m.fillStyle = "#0e0f19", m.fillRect(0, 50, H * 5 + W * 6 + 22, K), e.status(
                 m,
-                Y,
                 Z,
-                z,
-                k,
+                J,
+                W,
+                R,
                 S.length,
                 Math.round(O) + " fps",
                 O / e._goodFps,
@@ -2225,10 +2225,10 @@ var ge = { exports: {} };
                 }
               ), e.status(
                 m,
-                Y + N + z,
-                Z,
-                z,
-                k,
+                Z + H + W,
+                J,
+                W,
+                R,
                 C.length,
                 D.toFixed(2) + " dt",
                 e._goodDelta / D,
@@ -2237,51 +2237,51 @@ var ge = { exports: {} };
                 }
               ), e.status(
                 m,
-                Y + (N + z) * 2,
-                Z,
-                z,
-                k,
+                Z + (H + W) * 2,
+                J,
+                W,
+                R,
                 B.length,
                 A + " upf",
-                Math.pow(o.clamp(W / U || 1, 0, 1), 4),
+                Math.pow(o.clamp(U / k || 1, 0, 1), 4),
                 function(X) {
-                  return B[X] / W - 1;
+                  return B[X] / U - 1;
                 }
               ), e.status(
                 m,
-                Y + (N + z) * 3,
-                Z,
-                z,
-                k,
+                Z + (H + W) * 3,
+                J,
+                W,
+                R,
                 I.length,
-                G.toFixed(2) + " ut",
-                1 - A * G / e._goodFps,
+                N.toFixed(2) + " ut",
+                1 - A * N / e._goodFps,
                 function(X) {
-                  return I[X] / G - 1;
+                  return I[X] / N - 1;
                 }
               ), e.status(
                 m,
-                Y + (N + z) * 4,
-                Z,
-                z,
-                k,
+                Z + (H + W) * 4,
+                J,
+                W,
+                R,
                 d.length,
-                R.toFixed(2) + " rt",
-                1 - R / e._goodFps,
+                F.toFixed(2) + " rt",
+                1 - F / e._goodFps,
                 function(X) {
-                  return d[X] / R - 1;
+                  return d[X] / F - 1;
                 }
               ), e.status(
                 m,
-                Y + (N + z) * 5,
-                Z,
-                z,
-                k,
+                Z + (H + W) * 5,
+                J,
+                W,
+                R,
                 P.length,
-                H.toFixed(2) + " x",
-                H * H * H,
+                G.toFixed(2) + " x",
+                G * G * G,
                 function(X) {
-                  return (P[X] / S[X] / H || 0) - 1;
+                  return (P[X] / S[X] / G || 0) - 1;
                 }
               );
             }, e.status = function(c, m, h, x, S, d, P, C, B) {
@@ -2298,10 +2298,10 @@ var ge = { exports: {} };
                     h.beginPath(), h.arc(C.x, C.y, 3, 0, 2 * Math.PI), h.closePath();
                   else {
                     if (P ? B = u.add(P.position, S.pointB) : B = S.pointB, h.beginPath(), h.moveTo(C.x, C.y), S.render.type === "spring")
-                      for (var I = u.sub(B, C), A = u.perp(u.normalise(I)), D = Math.ceil(o.clamp(S.length / 5, 12, 20)), E, R = 1; R < D; R += 1)
-                        E = R % 2 === 0 ? 1 : -1, h.lineTo(
-                          C.x + I.x * (R / D) + A.x * E * 4,
-                          C.y + I.y * (R / D) + A.y * E * 4
+                      for (var I = u.sub(B, C), A = u.perp(u.normalise(I)), D = Math.ceil(o.clamp(S.length / 5, 12, 20)), E, F = 1; F < D; F += 1)
+                        E = F % 2 === 0 ? 1 : -1, h.lineTo(
+                          C.x + I.x * (F / D) + A.x * E * 4,
+                          C.y + I.y * (F / D) + A.y * E * 4
                         );
                     h.lineTo(B.x, B.y);
                   }
@@ -2740,7 +2740,7 @@ class de extends HTMLElement {
     super(), this.init();
   }
   init() {
-    const oe = this, T = $.Engine, L = $.Render, g = $.Runner, e = $.Bodies, f = $.Events, o = $.Composite, s = $.Mouse, v = $.MouseConstraint, a = $.Body, u = [[
+    const le = this, T = $.Engine, L = $.Render, g = $.Runner, e = $.Bodies, f = $.Events, o = $.Composite, s = $.Mouse, v = $.MouseConstraint, a = $.Body, u = [[
       {
         x: 98.5,
         y: 1
@@ -3093,7 +3093,7 @@ class de extends HTMLElement {
       window.scrollY >= document.body.scrollHeight - window.innerHeight - 50 && (r.world.gravity.y = 2);
     });
     const n = window.innerWidth, i = n * 0.8, l = L.create({
-      element: oe,
+      element: le,
       engine: r,
       options: {
         width: n,
@@ -3198,27 +3198,27 @@ class de extends HTMLElement {
       lightPeriwinkle: "#BFCCEB",
       paleSkyBlue: "#ADDAE5",
       midnightBlue: "#002072"
-    }, d = (F = !0, H = "", U, O, k, N, z, j, Y, Z, X) => {
+    }, d = (k = !0, O = "", R, H, W, K, Z, J, X, ae, re) => {
       const {
-        width: _,
-        height: ie
-      } = x[k] || {
+        width: q,
+        height: _
+      } = x[W] || {
         width: 120,
         height: 120
-      }, ae = S[N], Q = e.rectangle(U, O, _, ie, {
+      }, ee = S[K], Q = e.rectangle(R, H, q, _, {
         density: 10,
         restitution: 0.1,
         friction: 5,
         frictionAir: 0.02,
         render: {
-          fillStyle: ae
+          fillStyle: ee
         }
       });
-      o.add(r.world, Q), a.setAngle(Q, Y);
-      const b = e.rectangle(
+      o.add(r.world, Q), a.setAngle(Q, X);
+      const Y = e.rectangle(
         Q.position.x,
         Q.position.y,
-        Math.max(40, _ / 2),
+        Math.max(40, q / 2),
         20,
         {
           restitution: 0.1,
@@ -3228,39 +3228,39 @@ class de extends HTMLElement {
           frictionAir: 0.5,
           render: {
             sprite: {
-              texture: String(F ? H : P(H, N)),
-              xScale: F ? Z : 0.75,
-              yScale: F ? X : 0.75
+              texture: String(k ? O : P(O, K)),
+              xScale: k ? ae : 0.75,
+              yScale: k ? re : 0.75
             }
           },
-          url: z
+          url: Z
         }
       );
-      a.setPosition(b, {
+      a.setPosition(Y, {
         x: Q.position.x,
         y: Q.position.y
       });
-      const q = a.nextGroup(!0);
+      const j = a.nextGroup(!0);
       return a.set(Q, "collisionFilter", {
-        group: q,
+        group: j,
         category: 1,
         mask: 65535
-      }), a.set(b, "collisionFilter", {
-        group: q,
+      }), a.set(Y, "collisionFilter", {
+        group: j,
         category: 1,
         mask: 65535
-      }), o.add(r.world, b), f.on(r, "beforeUpdate", function() {
-        a.setPosition(b, {
+      }), o.add(r.world, Y), f.on(r, "beforeUpdate", function() {
+        a.setPosition(Y, {
           x: Q.position.x,
           y: Q.position.y
-        }), a.setAngle(b, Q.angle);
+        }), a.setAngle(Y, Q.angle);
       }), Q;
-    }, P = (F, H) => {
-      const U = document.createElement("canvas");
-      U.width = 250, U.height = 200;
-      const O = U.getContext("2d");
-      if (O)
-        return O.clearRect(0, 0, U.width, U.height), O.fillStyle = H === "charcoal" || H === "brightAzure" || H === "midnightBlue" ? "#fff" : "#000", O.font = F === "© 2024 Mellenger Interactive." ? "12pt Hanken Grotesk, sans-serif" : "20pt Hanken Grotesk, sans-serif", O.textAlign = "center", O.textBaseline = "middle", O.fillText(F, U.width / 2, U.height / 2), U.style.cursor = "pointer", U.toDataURL("image/png");
+    }, P = (k, O) => {
+      const R = document.createElement("canvas");
+      R.width = 250, R.height = 200;
+      const H = R.getContext("2d");
+      if (H)
+        return H.clearRect(0, 0, R.width, R.height), H.fillStyle = O === "charcoal" || O === "brightAzure" || O === "midnightBlue" ? "#fff" : "#000", H.font = k === "© 2024 Mellenger Interactive." ? "12pt Hanken Grotesk, sans-serif" : "20pt Hanken Grotesk, sans-serif", H.textAlign = "center", H.textBaseline = "middle", H.fillText(k, R.width / 2, R.height / 2), R.style.cursor = "pointer", R.toDataURL("image/png");
     };
     [
       {
@@ -3360,8 +3360,8 @@ class de extends HTMLElement {
         xScale: 1,
         yScale: 1
       }
-    ].forEach((F) => {
-      d(F.hasImage, F.text, F.positionX, F.positionY, F.size, F.color, F.link, 1, 0, F.xScale, F.yScale);
+    ].forEach((k) => {
+      d(k.hasImage, k.text, k.positionX, k.positionY, k.size, k.color, k.link, 1, 0, k.xScale, k.yScale);
     });
     const B = "https://mellenger-interactive.github.io/footer-animation/images/wand.webp", I = [
       { image: "https://mellenger-interactive.github.io/footer-animation/images/andrew.webp" },
@@ -3376,13 +3376,13 @@ class de extends HTMLElement {
       { image: "https://mellenger-interactive.github.io/footer-animation/images/philippe.webp" }
     ], A = d(!0, B, (n > 768, n * 0.6), -250, "medsq", "paleSkyBlue", null, 1, 0, 0.6, 0.6);
     let D = 0;
-    const E = (F, H) => {
+    const E = (k, O) => {
       if (D >= I.length)
         return null;
-      const U = I[D], O = d(!0, U.image, F, H, "mdsq", "paleSkyBlue", null, 1, 0, 0.6, 0.6);
-      return D++, O;
-    }, R = s.create(l.canvas), V = v.create(r, {
-      mouse: R,
+      const R = I[D], H = d(!0, R.image, k, O, "mdsq", "paleSkyBlue", null, 1, 0, 0.6, 0.6);
+      return D++, H;
+    }, F = s.create(l.canvas), V = v.create(r, {
+      mouse: F,
       constraint: {
         stiffness: 1,
         render: {
@@ -3390,26 +3390,37 @@ class de extends HTMLElement {
         }
       }
     });
-    o.add(r.world, V), f.on(V, "mousedown", function(F) {
-      const H = F.source, U = r.world.bodies;
-      if (H.body)
-        for (let O = U.length - 1; O >= 0; O--) {
-          const k = U[O];
-          if ($.Bounds.contains(k.bounds, H.mouse.position)) {
-            const N = (k.url, k.url);
-            N && (window.location.href = N);
+    o.add(r.world, V), f.on(V, "mousedown", function(k) {
+      const O = k.source, R = r.world.bodies;
+      if (O.body)
+        for (let H = R.length - 1; H >= 0; H--) {
+          const W = R[H];
+          if ($.Bounds.contains(W.bounds, O.mouse.position)) {
+            const K = (W.url, W.url);
+            K && (window.location.href = K);
             break;
           }
         }
     });
-    const W = document.querySelector("mellenger-footer-animation canvas");
-    W == null || W.addEventListener("dblclick", (F) => {
-      const H = F, U = W.getBoundingClientRect(), O = { x: H.clientX - U.left, y: H.clientY - U.top };
-      o.allBodies(r.world).find((z) => $.Bounds.contains(z.bounds, O)) === A && D <= I.length && E(A.position.x, A.position.y);
-    }), l.mouse = R, L.run(l);
-    const G = g.create();
-    g.run(G, r), window.addEventListener("resize", () => {
-      window.location.reload();
+    const U = document.querySelector("mellenger-footer-animation canvas");
+    U == null || U.addEventListener("dblclick", (k) => {
+      const O = k, R = U.getBoundingClientRect(), H = { x: O.clientX - R.left, y: O.clientY - R.top };
+      o.allBodies(r.world).find((Z) => $.Bounds.contains(Z.bounds, H)) === A && D <= I.length && E(A.position.x, A.position.y);
+    }), l.mouse = F, L.run(l);
+    const N = g.create();
+    g.run(N, r);
+    let z = null, G = !0;
+    window.addEventListener("resize", () => {
+      z && clearTimeout(z), z = setTimeout(() => {
+        if (G) {
+          l && ($.Render.stop(l), l.canvas && l.canvas.remove());
+          const k = document.querySelectorAll("canvas");
+          console.log(k.length), k.length > 0 && k.forEach((O) => {
+            O.remove();
+          }), r && $.Engine.clear(r), G = !1;
+        }
+        G || (this.init(), G = !0);
+      }, 200);
     });
   }
 }
