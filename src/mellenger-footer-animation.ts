@@ -16,7 +16,6 @@ interface ColorMap {
 class MellengerFooterAnimation extends HTMLElement {
   constructor() {
     super();
-
     this.init();
   }
 
@@ -853,10 +852,43 @@ class MellengerFooterAnimation extends HTMLElement {
       // run the engine
       Runner.run(runner, engine);
 
-      window.addEventListener('resize', () => {
-        window.location.reload();
-      });
+      let resizeTimeout: number | null = null;
+      let canvasInitialized = true;
 
+      window.addEventListener('resize', () => {
+        if (resizeTimeout) {
+          clearTimeout(resizeTimeout);
+        }
+      
+        resizeTimeout = setTimeout(() => {
+          if (canvasInitialized) {
+            if (render) {
+              Matter.Render.stop(render);
+              if (render.canvas) {
+                render.canvas.remove(); 
+              }
+            }
+
+            const existingCanvas = document.querySelectorAll('canvas');
+            console.log(existingCanvas.length)
+            if (existingCanvas.length > 0) {
+              existingCanvas.forEach((canvas: HTMLCanvasElement) => {
+                canvas.remove();  
+              });
+            }
+      
+            if (engine) {
+              Matter.Engine.clear(engine);
+            }
+            canvasInitialized = false;
+          }
+
+          if (!canvasInitialized) {
+            this.init(); 
+            canvasInitialized = true;
+          }
+        }, 200);
+      });
     // }
   }
 }
