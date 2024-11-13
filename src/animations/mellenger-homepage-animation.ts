@@ -55,7 +55,7 @@ export function MellengerHomePageAnimation(containerId: string) {
   let terrain = null;
   if (typeof fetch !== "undefined") {
     const select = (root: ParentNode, selector: string): Element[] => {
-      return Array.from(root.querySelectorAll(selector));
+      return Array.prototype.slice.call(root.querySelectorAll(selector));
     };
 
     const loadSvg = async (url: string): Promise<Document> => {
@@ -300,8 +300,8 @@ export function MellengerHomePageAnimation(containerId: string) {
 
   Matter.Events.on(engine, "collisionStart", (event) => {
     event.pairs.forEach(({ bodyA, bodyB, collision }) => {
-      const isParticleA = particles.includes(bodyA);
-      const isParticleB = particles.includes(bodyB);
+      const isParticleA = particles.some(particle => particle === bodyA);
+      const isParticleB = particles.some(particle => particle === bodyB);
 
       if (isParticleA || isParticleB) {
         const particle = isParticleA ? bodyA : bodyB;

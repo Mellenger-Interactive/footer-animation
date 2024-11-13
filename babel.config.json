@@ -1,0 +1,10 @@
+{
+    "presets": [
+      ["@babel/preset-env", {
+        "targets": {
+          "browsers": ["defaults", "ie >= 11"]
+        }
+      }],
+      "@babel/preset-typescript"
+    ]
+  }

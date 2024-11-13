@@ -1,24 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES5",                     
-    "module": "CommonJS",                
-    "lib": ["ES5", "DOM", "DOM.Iterable"], 
-    "skipLibCheck": true,                
-    "useDefineForClassFields": true,      
-    "moduleResolution": "Node",           
-    "allowImportingTsExtensions": true,   
-    "isolatedModules": true,             
-    "moduleDetection": "force",           
-    "noEmit": true,          
-    "esModuleInterop": true,             
-    
-    /* Linting */
-    "strict": true,                    
-    "noUnusedLocals": true,             
-    "noUnusedParameters": true,           
-    "noFallthroughCasesInSwitch": true,   
-    "noUncheckedSideEffectImports": true  
+    "target": "ESNext", // Let Babel handle the transpilation
+    "module": "ESNext",
+    "lib": ["es5", "dom", "dom.iterable"],
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "esModuleInterop": true,
 
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
   },
   "include": ["src"]
 }
