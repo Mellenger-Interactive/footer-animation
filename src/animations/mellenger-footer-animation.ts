@@ -954,11 +954,16 @@ export function MellengerFooterAnimation(containerId: string) {
       x: mouseEvent.clientX - rect.left,
       y: mouseEvent.clientY - rect.top,
     };
-    const bodies = Composite.allBodies(engine.world);
+    const bodies: Matter.Body[] = Composite.allBodies(engine.world);
 
-    const clickedBody = bodies.find((body: { bounds: Matter.Bounds; }) =>
-      Matter.Bounds.contains(body.bounds, mousePosition)
-    );
+    let clickedBody;
+    for (let i = 0; i < bodies.length; i++) {
+      const body = bodies[i];
+      if (Matter.Bounds.contains(body.bounds, mousePosition)) {
+        clickedBody = body;
+        break;
+      }
+    }
 
     if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
       generateStaffBox(initialBox.position.x, initialBox.position.y);
