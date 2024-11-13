@@ -3,5 +3,5 @@ import { MellengerHomePageAnimation } from "./animations/mellenger-homepage-anim
 
 window.addEventListener("DOMContentLoaded", () => {
     MellengerHomePageAnimation('hp-hero-bg'); 
-    MellengerFooterAnimation('footer-animation')// Target the div with id="hp-hero-bg"
+    MellengerFooterAnimation('footer-wrap')
   });

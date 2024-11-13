@@ -3,7 +3,7 @@ import babel from '@rollup/plugin-babel';
 
 export default defineConfig({
   build: {
-    target: 'es5',
+    minify: 'esbuild',
     lib: {
       entry: 'src/main.ts', // Path to your entry TypeScript file
       name: 'MellengerAnimation', // The global name for your component
@@ -11,10 +11,10 @@ export default defineConfig({
       formats: ['es'], // Generate UMD module format
     },
     rollupOptions: {
-      external: ['poly-decomp'], // Externalize any dependencies (e.g., poly-decomp)
+      external: ["poly-decomp"], 
       output: {
         globals: {
-          'poly-decomp': 'decomp', // Define the global name for external libraries
+          "poly-decomp": "decomp", 
         },
       },
     },

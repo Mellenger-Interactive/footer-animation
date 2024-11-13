@@ -428,7 +428,6 @@ export function MellengerFooterAnimation(containerId: string) {
     {
       isStatic: true,
       render: {
-        fillStyle: "white",
         strokeStyle: "white",
       },
     }
@@ -907,6 +906,8 @@ export function MellengerFooterAnimation(containerId: string) {
     },
   });
 
+  console.log(mouseConstraint.mouse)
+
   // mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
   // mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
   // mouseConstraint.mouse.element.removeEventListener('touchstart', mouseConstraint.mouse.mousedown);
@@ -946,7 +947,7 @@ export function MellengerFooterAnimation(containerId: string) {
     }
   });
 
-  const canvas = document.querySelector("mellenger-footer-animation canvas");
+  const canvas = document.querySelector("#footer-wrap canvas");
   canvas?.addEventListener("dblclick", (event) => {
     const mouseEvent = event as MouseEvent;
     const rect = canvas.getBoundingClientRect();
