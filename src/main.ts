@@ -1,3 +1,7 @@
-import MellengerFooterAnimation from "./mellenger-footer-animation";
+import { MellengerFooterAnimation } from "./animations/mellenger-footer-animation";
+import { MellengerHomePageAnimation } from "./animations/mellenger-homepage-animation";
 
-customElements.define('mellenger-footer-animation',MellengerFooterAnimation);
+window.addEventListener("DOMContentLoaded", () => {
+    MellengerHomePageAnimation('hp-hero-bg'); 
+    MellengerFooterAnimation('footer-animation')// Target the div with id="hp-hero-bg"
+  });

@@ -9,12 +9,14 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/svg-path-parser": "^1.1.6",
     "typescript": "~5.6.2",
     "vite": "^5.4.10"
   },
   "dependencies": {
     "@types/matter-js": "^0.19.7",
     "matter-js": "^0.20.0",
-    "poly-decomp": "^0.3.0"
+    "poly-decomp": "^0.3.0",
+    "svg-path-parser": "^1.1.0"
   }
 }
