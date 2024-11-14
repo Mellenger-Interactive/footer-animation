@@ -1,6 +1,11 @@
 import * as Matter from "matter-js";
 
-export const handleResize = (
+interface Size {
+  width: number;
+  height: number;
+}
+
+export const handleCanvasResize = (
   render: Matter.Render | null,
   engine: Matter.Engine | null,
   containerId: string,
@@ -48,3 +53,24 @@ export const handleResize = (
     }, 200); // Debounce the resize event with a timeout
   });
 };
+
+export const handleObjectResize = (size: Size) => {
+  const maxWidth = size.width;
+  const maxHeight = size.height;
+  const screenWidth = window.innerWidth;
+  let scaleFactor = 1;
+
+  if (screenWidth < 1440) {
+    if (screenWidth < 900) {
+      scaleFactor = (screenWidth / 1800) * 0.75;
+    } else {
+      scaleFactor = screenWidth / 1800;
+    }
+  }
+
+  const calculatedWidth = Math.max(maxWidth * scaleFactor, 40);
+  const calculatedHeight = Math.max(maxHeight * scaleFactor, 40);
+
+  return { width: calculatedWidth, height: calculatedHeight };
+};
+

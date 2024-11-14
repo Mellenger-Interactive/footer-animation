@@ -1,7 +1,7 @@
 import Matter, { IRendererOptions } from "matter-js";
 import { parseSVG } from "svg-path-parser";
 import * as polyDecomp from "poly-decomp";
-import { handleResize } from "../utils/resize";
+import { handleCanvasResize, handleObjectResize } from "../utils/resize";
 
 interface Size {
   width: number;
@@ -188,26 +188,6 @@ export function MellengerHomePageAnimation(containerId: string) {
     "rgba(173, 218, 229, 0.50196)",
   ];
 
-  const calculateParticleSize = (size: Size) => {
-    const maxWidth = size.width;
-    const maxHeight = size.height;
-    const screenWidth = window.innerWidth;
-    let scaleFactor = 1;
-
-    if (screenWidth < 1440) {
-      if (screenWidth < 900) {
-        scaleFactor = (screenWidth / 1800) * 0.75;
-      } else {
-        scaleFactor = screenWidth / 1800;
-      }
-    }
-
-    const calculatedWidth = Math.max(maxWidth * scaleFactor, 40);
-    const calculatedHeight = Math.max(maxHeight * scaleFactor, 40);
-
-    return { width: calculatedWidth, height: calculatedHeight };
-  };
-
   const createParticle = (
     particleSize: { width: number; height: number },
     colour: string
@@ -238,7 +218,7 @@ export function MellengerHomePageAnimation(containerId: string) {
   const particles: Matter.Body[] = [];
   shapeSizes.forEach((size, index) => {
     const colour = colours[index];
-    const particleSize = calculateParticleSize(size);
+    const particleSize = handleObjectResize(size);
     const particle = createParticle(particleSize, colour);
 
     const angularVelocity = (1 / (size.width * size.height)) * 1000;
@@ -326,5 +306,5 @@ export function MellengerHomePageAnimation(containerId: string) {
   const runner = Runner.create();
   Runner.run(runner, engine);
 
-  handleResize(render, engine, containerId, MellengerHomePageAnimation)
+  handleCanvasResize(render, engine, containerId, MellengerHomePageAnimation)
 }

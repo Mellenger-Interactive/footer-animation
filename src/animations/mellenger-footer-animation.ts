@@ -4,7 +4,7 @@ import Matter, {
   IRendererOptions,
 } from "matter-js";
 
-import { handleResize } from "../utils/resize";
+import { handleCanvasResize } from "../utils/resize";
 
 interface ICustomBodyDefinition extends IChamferableBodyDefinition {
   url?: string;
@@ -899,11 +899,14 @@ export function MellengerFooterAnimation(containerId: string) {
 
   Composite.add(engine.world, mouseConstraint);
 
-const mousewheelProperty = (mouseConstraint.mouse as any).mousewheel;  // Bypass TypeScript error
-if (mousewheelProperty) {
-  mouseConstraint.mouse.element.removeEventListener("wheel", mousewheelProperty);
-}
-  console.log('mouseContraint', mouseConstraint)
+  const mousewheelProperty = (mouseConstraint.mouse as any).mousewheel; // Bypass TypeScript error
+  if (mousewheelProperty) {
+    mouseConstraint.mouse.element.removeEventListener(
+      "wheel",
+      mousewheelProperty
+    );
+  }
+  console.log("mouseContraint", mouseConstraint);
 
   Events.on(mouseConstraint, "mousedown", function (event) {
     const mouseConstraint = event.source;
@@ -940,33 +943,51 @@ if (mousewheelProperty) {
     { passive: true }
   );
 
-  const canvas = document.querySelector("#footer-wrap canvas");
-  canvas?.addEventListener(
-    "dblclick",
-    (event) => {
-      const mouseEvent = event as MouseEvent;
-      const rect = canvas.getBoundingClientRect();
-      const mousePosition = {
-        x: mouseEvent.clientX - rect.left,
-        y: mouseEvent.clientY - rect.top,
-      };
-      const bodies: Matter.Body[] = Composite.allBodies(engine.world);
+  const canvas = document.querySelector("#footer-wrap canvas") ;
 
-      let clickedBody;
-      for (let i = 0; i < bodies.length; i++) {
-        const body = bodies[i];
-        if (Matter.Bounds.contains(body.bounds, mousePosition)) {
-          clickedBody = body;
-          break;
-        }
-      }
+  let lastTapTime = 0;
+  const DOUBLE_TAP_THRESHOLD = 300; // Time in milliseconds to consider as double-tap
 
-      if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
-        generateStaffBox(initialBox.position.x, initialBox.position.y);
+  const handleDoubleTap = (event: MouseEvent | TouchEvent) => {
+    const mouseEvent = event as MouseEvent;
+    const rect = canvas.getBoundingClientRect();
+    const mousePosition = {
+      x: mouseEvent.clientX - rect.left,
+      y: mouseEvent.clientY - rect.top,
+    };
+    const bodies: Matter.Body[] = Composite.allBodies(engine.world);
+
+    let clickedBody;
+    for (let i = 0; i < bodies.length; i++) {
+      const body = bodies[i];
+      if (Matter.Bounds.contains(body.bounds, mousePosition)) {
+        clickedBody = body;
+        break;
       }
-    },
-    { passive: true }
-  );
+    }
+
+    if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
+      generateStaffBox(initialBox.position.x, initialBox.position.y);
+    }
+  };
+
+  const handleMouseDblClick = (event: MouseEvent) => {
+    handleDoubleTap(event);
+  };
+
+  const handleTouchEnd = (event: TouchEvent) => {
+    const currentTime = new Date().getTime();
+    const timeDifference = currentTime - lastTapTime;
+
+    if (timeDifference < DOUBLE_TAP_THRESHOLD && timeDifference > 0) {
+      // It's a double-tap
+      handleDoubleTap(event);
+    }
+    lastTapTime = currentTime;
+  };
+
+  canvas?.addEventListener("dblclick", (event:MouseEvent) => handleMouseDblClick(event));
+  // canvas?.addEventListener("touchend", handleTouchEnd);
 
   // run the renderer
   Render.run(render);
@@ -977,5 +998,5 @@ if (mousewheelProperty) {
   // run the engine
   Runner.run(runner, engine);
 
-  handleResize(render, engine, containerId, MellengerFooterAnimation);
+  handleCanvasResize(render, engine, containerId, MellengerFooterAnimation);
 }
