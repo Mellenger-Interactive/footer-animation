@@ -395,15 +395,6 @@ export function MellengerFooterAnimation(containerId: string) {
 
   engine.world.gravity.y = 0;
 
-  Events.on(engine, "beforeUpdate", () => {
-    if (
-      window.scrollY >=
-      document.body.scrollHeight - window.innerHeight - 50
-    ) {
-      engine.world.gravity.y = 2;
-    }
-  });
-
   // Renderer
   const canvasWidth = window.innerWidth;
   const canvasHeight = canvasWidth * 0.8;
@@ -899,33 +890,20 @@ export function MellengerFooterAnimation(containerId: string) {
   const mouseConstraint = MouseConstraint.create(engine, {
     mouse: mouse,
     constraint: {
-      stiffness: 1,
+      stiffness: 0.2,
       render: {
         visible: false,
       },
     },
   });
 
-  console.log(mouseConstraint.mouse)
-
-  // mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
-  // mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
-  // mouseConstraint.mouse.element.removeEventListener('touchstart', mouseConstraint.mouse.mousedown);
-  // mouseConstraint.mouse.element.removeEventListener('touchmove', mouseConstraint.mouse.mousemove);
-  // mouseConstraint.mouse.element.removeEventListener('touchend', mouseConstraint.mouse.mouseup);
-  // mouseConstraint.mouse.element.addEventListener('touchstart', mouseConstraint.mouse.mousedown, { passive: true });
-  // mouseConstraint.mouse.element.addEventListener('touchmove', (event) => {
-  //   if (mouseConstraint.body) {
-  //     mouseConstraint.mouse.mousemove(event);
-  //   }
-  // });
-  // mouseConstraint.mouse.element.addEventListener('touchend', (event) => {
-  //   if (mouseConstraint.body) {
-  //     mouseConstraint.mouse.mouseup(event);
-  //   }
-  // });
-
   Composite.add(engine.world, mouseConstraint);
+
+const mousewheelProperty = (mouseConstraint.mouse as any).mousewheel;  // Bypass TypeScript error
+if (mousewheelProperty) {
+  mouseConstraint.mouse.element.removeEventListener("wheel", mousewheelProperty);
+}
+  console.log('mouseContraint', mouseConstraint)
 
   Events.on(mouseConstraint, "mousedown", function (event) {
     const mouseConstraint = event.source;
@@ -947,31 +925,48 @@ export function MellengerFooterAnimation(containerId: string) {
     }
   });
 
-  const canvas = document.querySelector("#footer-wrap canvas");
-  canvas?.addEventListener("dblclick", (event) => {
-    const mouseEvent = event as MouseEvent;
-    const rect = canvas.getBoundingClientRect();
-    const mousePosition = {
-      x: mouseEvent.clientX - rect.left,
-      y: mouseEvent.clientY - rect.top,
-    };
-    const bodies: Matter.Body[] = Composite.allBodies(engine.world);
+  window.addEventListener(
+    "scroll",
+    () => {
+      const scrollTop = window.scrollY;
+      const documentHeight = document.body.scrollHeight;
+      const windowHeight = window.innerHeight;
 
-    let clickedBody;
-    for (let i = 0; i < bodies.length; i++) {
-      const body = bodies[i];
-      if (Matter.Bounds.contains(body.bounds, mousePosition)) {
-        clickedBody = body;
-        break;
+      if (scrollTop + windowHeight >= documentHeight - 50) {
+        engine.world.gravity.y = 1;
+        console.log("Gravity set to 1");
       }
-    }
+    },
+    { passive: true }
+  );
 
-    if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
-      generateStaffBox(initialBox.position.x, initialBox.position.y);
-    }
-  });
+  const canvas = document.querySelector("#footer-wrap canvas");
+  canvas?.addEventListener(
+    "dblclick",
+    (event) => {
+      const mouseEvent = event as MouseEvent;
+      const rect = canvas.getBoundingClientRect();
+      const mousePosition = {
+        x: mouseEvent.clientX - rect.left,
+        y: mouseEvent.clientY - rect.top,
+      };
+      const bodies: Matter.Body[] = Composite.allBodies(engine.world);
 
-  render.mouse = mouse;
+      let clickedBody;
+      for (let i = 0; i < bodies.length; i++) {
+        const body = bodies[i];
+        if (Matter.Bounds.contains(body.bounds, mousePosition)) {
+          clickedBody = body;
+          break;
+        }
+      }
+
+      if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
+        generateStaffBox(initialBox.position.x, initialBox.position.y);
+      }
+    },
+    { passive: true }
+  );
 
   // run the renderer
   Render.run(render);
@@ -982,6 +977,5 @@ export function MellengerFooterAnimation(containerId: string) {
   // run the engine
   Runner.run(runner, engine);
 
-  handleResize(render, engine, containerId, MellengerFooterAnimation)
+  handleResize(render, engine, containerId, MellengerFooterAnimation);
 }
-

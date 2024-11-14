@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "minify": "npx terser dist/main.js -o dist/main.min.js --compress --mangle"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
