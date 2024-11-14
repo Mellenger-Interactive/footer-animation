@@ -11740,7 +11740,7 @@ var matter = {exports: {}};
 var matterExports = matter.exports;
 const Matter = /*@__PURE__*/getDefaultExportFromCjs(matterExports);
 
-var handleResize = function handleResize(render, engine, containerId, animationFunction) {
+var handleCanvasResize = function handleCanvasResize(render, engine, containerId, animationFunction) {
   var resizeTimeout = null;
   var canvasInitialized = true;
   window.addEventListener("resize", function () {
@@ -11776,6 +11776,25 @@ var handleResize = function handleResize(render, engine, containerId, animationF
       }
     }, 200); // Debounce the resize event with a timeout
   });
+};
+var handleObjectResize = function handleObjectResize(size) {
+  var maxWidth = size.width;
+  var maxHeight = size.height;
+  var screenWidth = window.innerWidth;
+  var scaleFactor = 1;
+  if (screenWidth < 1440) {
+    if (screenWidth < 900) {
+      scaleFactor = screenWidth / 1800 * 0.75;
+    } else {
+      scaleFactor = screenWidth / 1800;
+    }
+  }
+  var calculatedWidth = Math.max(maxWidth * scaleFactor, 40);
+  var calculatedHeight = Math.max(maxHeight * scaleFactor, 40);
+  return {
+    width: calculatedWidth,
+    height: calculatedHeight
+  };
 };
 
 function MellengerFooterAnimation(containerId) {
@@ -12058,11 +12077,6 @@ function MellengerFooterAnimation(containerId) {
   }
   requestAnimationFrame(updateEngine);
   engine.world.gravity.y = 0;
-  Events.on(engine, "beforeUpdate", function () {
-    if (window.scrollY >= document.body.scrollHeight - window.innerHeight - 50) {
-      engine.world.gravity.y = 2;
-    }
-  });
 
   // Renderer
   var canvasWidth = window.innerWidth;
@@ -12411,32 +12425,17 @@ function MellengerFooterAnimation(containerId) {
   var mouseConstraint = MouseConstraint.create(engine, {
     mouse: mouse,
     constraint: {
-      stiffness: 1,
+      stiffness: 0.2,
       render: {
         visible: false
       }
     }
   });
-  console.log(mouseConstraint.mouse);
-
-  // mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
-  // mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
-  // mouseConstraint.mouse.element.removeEventListener('touchstart', mouseConstraint.mouse.mousedown);
-  // mouseConstraint.mouse.element.removeEventListener('touchmove', mouseConstraint.mouse.mousemove);
-  // mouseConstraint.mouse.element.removeEventListener('touchend', mouseConstraint.mouse.mouseup);
-  // mouseConstraint.mouse.element.addEventListener('touchstart', mouseConstraint.mouse.mousedown, { passive: true });
-  // mouseConstraint.mouse.element.addEventListener('touchmove', (event) => {
-  //   if (mouseConstraint.body) {
-  //     mouseConstraint.mouse.mousemove(event);
-  //   }
-  // });
-  // mouseConstraint.mouse.element.addEventListener('touchend', (event) => {
-  //   if (mouseConstraint.body) {
-  //     mouseConstraint.mouse.mouseup(event);
-  //   }
-  // });
-
   Composite.add(engine.world, mouseConstraint);
+  var mousewheelProperty = mouseConstraint.mouse.mousewheel; // Bypass TypeScript error
+  if (mousewheelProperty) {
+    mouseConstraint.mouse.element.removeEventListener("wheel", mousewheelProperty);
+  }
   Events.on(mouseConstraint, "mousedown", function (event) {
     var mouseConstraint = event.source;
     var bodies = engine.world.bodies;
@@ -12453,6 +12452,17 @@ function MellengerFooterAnimation(containerId) {
         }
       }
     }
+  });
+  window.addEventListener("scroll", function () {
+    var scrollTop = window.scrollY;
+    var documentHeight = document.body.scrollHeight;
+    var windowHeight = window.innerHeight;
+    if (scrollTop + windowHeight >= documentHeight - 50) {
+      engine.world.gravity.y = 1;
+      console.log("Gravity set to 1");
+    }
+  }, {
+    passive: true
   });
   var canvas = document.querySelector("#footer-wrap canvas");
   canvas === null || canvas === void 0 || canvas.addEventListener("dblclick", function (event) {
@@ -12474,8 +12484,9 @@ function MellengerFooterAnimation(containerId) {
     if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
       generateStaffBox(initialBox.position.x, initialBox.position.y);
     }
+  }, {
+    passive: true
   });
-  render.mouse = mouse;
 
   // run the renderer
   Render.run(render);
@@ -12485,7 +12496,7 @@ function MellengerFooterAnimation(containerId) {
 
   // run the engine
   Runner.run(runner, engine);
-  handleResize(render, engine, containerId, MellengerFooterAnimation);
+  handleCanvasResize(render, engine, containerId, MellengerFooterAnimation);
 }
 
 /*
@@ -14568,7 +14579,7 @@ function MellengerHomePageAnimation(containerId) {
         return _ref.apply(this, arguments);
       };
     }();
-    loadSvg("src/images/HomeBG_Bottom_SVG.svg").then(function (root) {
+    loadSvg("https://mellenger-interactive.github.io/footer-animation/images/HomeBG_Bottom_SVG.svg").then(function (root) {
       var path = select(root, "path")[0];
       if (!path || !(path instanceof SVGPathElement)) {
         throw new Error("No path found in svg file");
@@ -14704,25 +14715,6 @@ function MellengerHomePageAnimation(containerId) {
     height: 200
   }];
   var colours = ["rgba(0, 32, 114, 0.5)", "rgba(46, 55, 72, 0.5333)", "rgba(91, 176, 255, 0.50196)", "rgba(26, 32, 44, 0.50196)", "rgba(173, 218, 229, 0.50196)"];
-  var calculateParticleSize = function calculateParticleSize(size) {
-    var maxWidth = size.width;
-    var maxHeight = size.height;
-    var screenWidth = window.innerWidth;
-    var scaleFactor = 1;
-    if (screenWidth < 1440) {
-      if (screenWidth < 900) {
-        scaleFactor = screenWidth / 1800 * 0.75;
-      } else {
-        scaleFactor = screenWidth / 1800;
-      }
-    }
-    var calculatedWidth = Math.max(maxWidth * scaleFactor, 40);
-    var calculatedHeight = Math.max(maxHeight * scaleFactor, 40);
-    return {
-      width: calculatedWidth,
-      height: calculatedHeight
-    };
-  };
   var createParticle = function createParticle(particleSize, colour) {
     var particleX = Math.random() * (canvasWidth - particleSize.width);
     var particleY = Math.random() * (canvasHeight - particleSize.height);
@@ -14741,7 +14733,7 @@ function MellengerHomePageAnimation(containerId) {
   var particles = [];
   shapeSizes.forEach(function (size, index) {
     var colour = colours[index];
-    var particleSize = calculateParticleSize(size);
+    var particleSize = handleObjectResize(size);
     var particle = createParticle(particleSize, colour);
     var angularVelocity = 1 / (size.width * size.height) * 1000;
     var randomSign = Math.random() < 0.5 ? -1 : 1;
@@ -14823,7 +14815,7 @@ function MellengerHomePageAnimation(containerId) {
   Render.run(render);
   var runner = Runner.create();
   Runner.run(runner, engine);
-  handleResize(render, engine, containerId, MellengerHomePageAnimation);
+  handleCanvasResize(render, engine, containerId, MellengerHomePageAnimation);
 }
 
 window.addEventListener("DOMContentLoaded", function () {
