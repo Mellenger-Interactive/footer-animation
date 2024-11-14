@@ -64,7 +64,7 @@ export function MellengerHomePageAnimation(containerId: string) {
       return new window.DOMParser().parseFromString(rawSvg, "image/svg+xml");
     };
 
-    loadSvg("src/images/HomeBG_Bottom_SVG.svg").then((root: Document) => {
+    loadSvg("https://mellenger-interactive.github.io/footer-animation/images/HomeBG_Bottom_SVG.svg").then((root: Document) => {
       const path = select(root, "path")[0] as SVGPathElement;
       if (!path || !(path instanceof SVGPathElement)) {
         throw new Error("No path found in svg file");
