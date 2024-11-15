@@ -2,7 +2,6 @@ import Matter, {
   Vector,
   IChamferableBodyDefinition,
   IRendererOptions,
-  Mouse,
 } from "matter-js";
 import * as polyDecomp from "poly-decomp";
 import { handleCanvasResize } from "../utils/resize";

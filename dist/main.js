@@ -11806,7 +11806,9 @@ function MellengerFooterAnimation(containerId) {
     Composite = Matter.Composite,
     Mouse = Matter.Mouse,
     MouseConstraint = Matter.MouseConstraint,
-    Body = Matter.Body;
+    Body = Matter.Body,
+    Common = Matter.Common;
+  Common.setDecomp(polyDecomp);
   var footerOutlineVertices = [[{
     x: 98.5,
     y: 1.0
@@ -12354,6 +12356,26 @@ function MellengerFooterAnimation(containerId) {
     yScale: 0
   }, {
     hasImage: false,
+    text: "Privacy Policy",
+    positionX: canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6,
+    positionY: -250,
+    size: "mdrec",
+    color: "midnightBlue",
+    link: "/privacy-policy",
+    xScale: 0,
+    yScale: 0
+  }, {
+    hasImage: false,
+    text: "Cookies",
+    positionX: canvasWidth > 768 ? canvasWidth * 0.2 : canvasWidth * 0.2,
+    positionY: -250,
+    size: "mdsq",
+    color: "skyBlue",
+    link: "/cookie-giveaway",
+    xScale: 0,
+    yScale: 0
+  }, {
+    hasImage: false,
     text: "© 2024 Mellenger Interactive.",
     positionX: canvasWidth > 768 ? canvasWidth * 0.9 : canvasWidth * 0.8,
     positionY: canvasHeight * 0.65,
@@ -12465,13 +12487,29 @@ function MellengerFooterAnimation(containerId) {
     passive: true
   });
   var canvas = document.querySelector("#footer-wrap canvas");
-  canvas === null || canvas === void 0 || canvas.addEventListener("dblclick", function (event) {
-    var mouseEvent = event;
-    var rect = canvas.getBoundingClientRect();
+  var handleClick = function handleClick(event) {
     var mousePosition = {
-      x: mouseEvent.clientX - rect.left,
-      y: mouseEvent.clientY - rect.top
+      x: 0,
+      y: 0
     };
+    if (canvas) {
+      if (event instanceof MouseEvent) {
+        var mouseEvent = event;
+        var rect = canvas.getBoundingClientRect();
+        mousePosition = {
+          x: mouseEvent.clientX - rect.left,
+          y: mouseEvent.clientY - rect.top
+        };
+      } else if (event instanceof TouchEvent) {
+        var touchEvent = event;
+        var _rect = canvas.getBoundingClientRect();
+        var touch = touchEvent.changedTouches[0];
+        mousePosition = {
+          x: touch.clientX - _rect.left,
+          y: touch.clientY - _rect.top
+        };
+      }
+    }
     var bodies = Composite.allBodies(engine.world);
     var clickedBody;
     for (var i = 0; i < bodies.length; i++) {
@@ -12484,6 +12522,12 @@ function MellengerFooterAnimation(containerId) {
     if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
       generateStaffBox(initialBox.position.x, initialBox.position.y);
     }
+  };
+  canvas === null || canvas === void 0 || canvas.addEventListener("dblclick", function (event) {
+    return handleClick(event);
+  });
+  canvas === null || canvas === void 0 || canvas.addEventListener("touchend", function (event) {
+    return handleClick(event);
   }, {
     passive: true
   });
