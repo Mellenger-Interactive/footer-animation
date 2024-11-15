@@ -2,6 +2,7 @@ import Matter, {
   Vector,
   IChamferableBodyDefinition,
   IRendererOptions,
+  Mouse,
 } from "matter-js";
 
 import { handleCanvasResize } from "../utils/resize";
@@ -943,32 +944,46 @@ export function MellengerFooterAnimation(containerId: string) {
   );
 
   const canvas = document.querySelector("#footer-wrap canvas");
-  canvas?.addEventListener(
-    "dblclick",
-    (event) => {
-      const mouseEvent = event as MouseEvent;
-      const rect = canvas.getBoundingClientRect();
-      const mousePosition = {
-        x: mouseEvent.clientX - rect.left,
-        y: mouseEvent.clientY - rect.top,
-      };
-      const bodies: Matter.Body[] = Composite.allBodies(engine.world);
+  const handleClick = (event: MouseEvent | TouchEvent) => {
+    let mousePosition = { x: 0, y: 0 };
 
-      let clickedBody;
-      for (let i = 0; i < bodies.length; i++) {
-        const body = bodies[i];
-        if (Matter.Bounds.contains(body.bounds, mousePosition)) {
-          clickedBody = body;
-          break;
-        }
-      }
+    if (canvas) {
+      if (event instanceof MouseEvent) {
+        const mouseEvent = event as MouseEvent;
+        const rect = canvas.getBoundingClientRect();
+        mousePosition = {
+          x: mouseEvent.clientX - rect.left,
+          y: mouseEvent.clientY - rect.top,
+        };
+      } else if (event instanceof TouchEvent) {
+        const touchEvent = event as TouchEvent;
+        const rect = canvas.getBoundingClientRect();
+        const touch = touchEvent.changedTouches[0]; 
+        mousePosition = {
+          x: touch.clientX - rect.left,
+          y: touch.clientY - rect.top,
+        };
+      }  
+    }
+    const bodies: Matter.Body[] = Composite.allBodies(engine.world);
+    let clickedBody: Matter.Body | undefined;
 
-      if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
-        generateStaffBox(initialBox.position.x, initialBox.position.y);
+    for (let i = 0; i < bodies.length; i++) {
+      const body = bodies[i];
+      if (Matter.Bounds.contains(body.bounds, mousePosition)) {
+        clickedBody = body;
+        break;
       }
-    },
-    { passive: true }
-  );
+    }
+
+    if (clickedBody === initialBox && currentStaffIndex <= staff.length) {
+      generateStaffBox(initialBox.position.x, initialBox.position.y);
+    }
+  };
+
+  canvas?.addEventListener("dblclick", (event) => handleClick(event as MouseEvent));
+
+  canvas?.addEventListener("touchend", (event) => handleClick(event as TouchEvent), {passive: true});
 
   // run the renderer
   Render.run(render);
