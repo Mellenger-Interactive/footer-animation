@@ -4,7 +4,7 @@ import Matter, {
   IRendererOptions,
   Mouse,
 } from "matter-js";
-
+import * as polyDecomp from "poly-decomp";
 import { handleCanvasResize } from "../utils/resize";
 
 interface ICustomBodyDefinition extends IChamferableBodyDefinition {
@@ -28,7 +28,10 @@ export function MellengerFooterAnimation(containerId: string) {
     Composite = Matter.Composite,
     Mouse = Matter.Mouse,
     MouseConstraint = Matter.MouseConstraint,
-    Body = Matter.Body;
+    Body = Matter.Body,
+    Common = Matter.Common;
+
+  Common.setDecomp(polyDecomp);
 
   const footerOutlineVertices: Vector[][] = [
     [
@@ -749,6 +752,28 @@ export function MellengerFooterAnimation(containerId: string) {
     },
     {
       hasImage: false,
+      text: "Privacy Policy",
+      positionX: canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6,
+      positionY: -250,
+      size: "mdrec",
+      color: "midnightBlue",
+      link: "/privacy-policy",
+      xScale: 0,
+      yScale: 0,
+    },
+    {
+      hasImage: false,
+      text: "Cookies",
+      positionX: canvasWidth > 768 ? canvasWidth * 0.2 : canvasWidth * 0.2,
+      positionY: -250,
+      size: "mdsq",
+      color: "skyBlue",
+      link: "/cookie-giveaway",
+      xScale: 0,
+      yScale: 0,
+    },
+    {
+      hasImage: false,
       text: "© 2024 Mellenger Interactive.",
       positionX: canvasWidth > 768 ? canvasWidth * 0.9 : canvasWidth * 0.8,
       positionY: canvasHeight * 0.65,
@@ -958,12 +983,12 @@ export function MellengerFooterAnimation(containerId: string) {
       } else if (event instanceof TouchEvent) {
         const touchEvent = event as TouchEvent;
         const rect = canvas.getBoundingClientRect();
-        const touch = touchEvent.changedTouches[0]; 
+        const touch = touchEvent.changedTouches[0];
         mousePosition = {
           x: touch.clientX - rect.left,
           y: touch.clientY - rect.top,
         };
-      }  
+      }
     }
     const bodies: Matter.Body[] = Composite.allBodies(engine.world);
     let clickedBody: Matter.Body | undefined;
@@ -981,9 +1006,15 @@ export function MellengerFooterAnimation(containerId: string) {
     }
   };
 
-  canvas?.addEventListener("dblclick", (event) => handleClick(event as MouseEvent));
+  canvas?.addEventListener("dblclick", (event) =>
+    handleClick(event as MouseEvent)
+  );
 
-  canvas?.addEventListener("touchend", (event) => handleClick(event as TouchEvent), {passive: true});
+  canvas?.addEventListener(
+    "touchend",
+    (event) => handleClick(event as TouchEvent),
+    { passive: true }
+  );
 
   // run the renderer
   Render.run(render);
