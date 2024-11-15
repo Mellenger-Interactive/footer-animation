@@ -2,6 +2,9 @@ import { defineConfig } from 'vite';
 import babel from '@rollup/plugin-babel';
 
 export default defineConfig({
+  optimizeDeps: {
+    include: ['poly-decomp'], // Ensure `poly-decomp` is pre-bundled
+  },
   build: {
     minify: 'esbuild',
     lib: {
@@ -9,14 +12,6 @@ export default defineConfig({
       name: 'MellengerAnimation', // The global name for your component
       fileName: 'main', // The output file name
       formats: ['es'], // Generate UMD module format
-    },
-    rollupOptions: {
-      external: ["poly-decomp"], 
-      output: {
-        globals: {
-          "poly-decomp": "decomp", 
-        },
-      },
     },
   },
   esbuild: false, // Disable esbuild
