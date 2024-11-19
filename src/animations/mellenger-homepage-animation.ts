@@ -37,7 +37,12 @@ export function MellengerHomePageAnimation(containerId: string) {
   engine.world.gravity.y = 0;
 
   const canvasWidth = window.innerWidth;
-  const canvasHeight = window.innerWidth * 0.6;
+  const canvasHeight =
+    window.innerWidth > 1875
+      ? window.innerWidth * 0.6
+      : window.innerWidth >= 750
+      ? window.innerWidth * 0.9
+      : window.innerWidth * 1.65;
 
   const render = Render.create({
     element: document.getElementById(containerId) as HTMLElement,
@@ -64,7 +69,9 @@ export function MellengerHomePageAnimation(containerId: string) {
       return new window.DOMParser().parseFromString(rawSvg, "image/svg+xml");
     };
 
-    loadSvg("https://mellenger-interactive.github.io/footer-animation/images/HomeBG_Bottom_SVG.svg").then((root: Document) => {
+    loadSvg(
+      "https://mellenger-interactive.github.io/footer-animation/images/HomeBG_Bottom_SVG.svg"
+    ).then((root: Document) => {
       const path = select(root, "path")[0] as SVGPathElement;
       if (!path || !(path instanceof SVGPathElement)) {
         throw new Error("No path found in svg file");
@@ -117,16 +124,23 @@ export function MellengerHomePageAnimation(containerId: string) {
         y: p.y * scaleX,
       }));
 
+      // Calculate the bounds of the scaled vertices
+      const bounds = Matter.Bounds.create(scaledVertices);
+
+      // Align terrain's bottom with the bottom of the canvas
+      const terrainHeight = bounds.max.y - bounds.min.y;
+      const adjustedY = canvasHeight - terrainHeight / 3.55;
+
       terrain = Bodies.fromVertices(
         canvasWidth / 2.3,
-        canvasHeight / 1.085,
+        adjustedY,
         scaledVertices,
         {
           isStatic: true,
           restitution: 1,
           render: {
-            fillStyle: "white",
-            strokeStyle: "white",
+            fillStyle: "#F8FAF5",
+            strokeStyle: "#F8FAF5",
             lineWidth: 1,
           },
           collisionFilter: {
@@ -148,7 +162,7 @@ export function MellengerHomePageAnimation(containerId: string) {
       render: {
         fillStyle: "white",
         strokeStyle: "white",
-        lineWidth: 4,
+        lineWidth: 2,
       },
       collisionFilter: {
         mask: 1,
@@ -280,8 +294,8 @@ export function MellengerHomePageAnimation(containerId: string) {
 
   Matter.Events.on(engine, "collisionStart", (event) => {
     event.pairs.forEach(({ bodyA, bodyB, collision }) => {
-      const isParticleA = particles.some(particle => particle === bodyA);
-      const isParticleB = particles.some(particle => particle === bodyB);
+      const isParticleA = particles.some((particle) => particle === bodyA);
+      const isParticleB = particles.some((particle) => particle === bodyB);
 
       if (isParticleA || isParticleB) {
         const particle = isParticleA ? bodyA : bodyB;
@@ -306,5 +320,5 @@ export function MellengerHomePageAnimation(containerId: string) {
   const runner = Runner.create();
   Runner.run(runner, engine);
 
-  handleCanvasResize(render, engine, containerId, MellengerHomePageAnimation)
+  handleCanvasResize(render, engine, containerId, MellengerHomePageAnimation);
 }

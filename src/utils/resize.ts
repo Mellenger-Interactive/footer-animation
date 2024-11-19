@@ -62,7 +62,7 @@ export const handleObjectResize = (size: Size) => {
 
   if (screenWidth < 1440) {
     if (screenWidth < 900) {
-      scaleFactor = (screenWidth / 1800) * 0.75;
+      scaleFactor = (screenWidth / 1800) * 1.5;
     } else {
       scaleFactor = screenWidth / 1800;
     }

@@ -764,7 +764,7 @@ export function MellengerFooterAnimation(containerId: string) {
       hasImage: false,
       text: "Cookies",
       positionX: canvasWidth > 768 ? canvasWidth * 0.2 : canvasWidth * 0.2,
-      positionY: -250,
+      positionY: -450,
       size: "mdsq",
       color: "skyBlue",
       link: "/cookie-giveaway",
@@ -871,7 +871,7 @@ export function MellengerFooterAnimation(containerId: string) {
   const initialBox = createBody(
     true,
     octoboiImage,
-    canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6,
+    canvasWidth > 768 ? canvasWidth * 0.8 : canvasWidth * 0.8,
     -250,
     "medsq",
     "paleSkyBlue",
