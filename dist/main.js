@@ -12465,7 +12465,7 @@ var handleObjectResize = function handleObjectResize(size) {
   var scaleFactor = 1;
   if (screenWidth < 1440) {
     if (screenWidth < 900) {
-      scaleFactor = screenWidth / 1800 * 0.75;
+      scaleFactor = screenWidth / 1800 * 1.5;
     } else {
       scaleFactor = screenWidth / 1800;
     }
@@ -13049,7 +13049,7 @@ function MellengerFooterAnimation(containerId) {
     hasImage: false,
     text: "Cookies",
     positionX: canvasWidth > 768 ? canvasWidth * 0.2 : canvasWidth * 0.2,
-    positionY: -250,
+    positionY: -450,
     size: "mdsq",
     color: "skyBlue",
     link: "/cookie-giveaway",
@@ -13111,7 +13111,7 @@ function MellengerFooterAnimation(containerId) {
   }, {
     image: "https://mellenger-interactive.github.io/footer-animation/images/philippe.webp"
   }];
-  var initialBox = createBody(true, octoboiImage, canvasWidth > 768 ? canvasWidth * 0.6 : canvasWidth * 0.6, -250, "medsq", "paleSkyBlue", null, 1, 0, 0.6, 0.6);
+  var initialBox = createBody(true, octoboiImage, canvasWidth > 768 ? canvasWidth * 0.8 : canvasWidth * 0.8, -250, "medsq", "paleSkyBlue", null, 1, 0, 0.6, 0.6);
   var currentStaffIndex = 0;
   var generateStaffBox = function generateStaffBox(x, y) {
     if (currentStaffIndex >= staff.length) {
@@ -15260,7 +15260,7 @@ function MellengerHomePageAnimation(containerId) {
   });
   engine.world.gravity.y = 0;
   var canvasWidth = window.innerWidth;
-  var canvasHeight = window.innerWidth * 0.6;
+  var canvasHeight = window.innerWidth > 1875 ? window.innerWidth * 0.6 : window.innerWidth >= 750 ? window.innerWidth * 0.9 : window.innerWidth * 1.65;
   var render = Render.create({
     element: document.getElementById(containerId),
     engine: engine,
@@ -15361,12 +15361,19 @@ function MellengerHomePageAnimation(containerId) {
           y: p.y * scaleX
         };
       });
-      terrain = Bodies.fromVertices(canvasWidth / 2.3, canvasHeight / 1.085, scaledVertices, {
+
+      // Calculate the bounds of the scaled vertices
+      var bounds = Matter.Bounds.create(scaledVertices);
+
+      // Align terrain's bottom with the bottom of the canvas
+      var terrainHeight = bounds.max.y - bounds.min.y;
+      var adjustedY = canvasHeight - terrainHeight / 3.55;
+      terrain = Bodies.fromVertices(canvasWidth / 2.3, adjustedY, scaledVertices, {
         isStatic: true,
         restitution: 1,
         render: {
-          fillStyle: "white",
-          strokeStyle: "white",
+          fillStyle: "#F8FAF5",
+          strokeStyle: "#F8FAF5",
           lineWidth: 1
         },
         collisionFilter: {
@@ -15387,7 +15394,7 @@ function MellengerHomePageAnimation(containerId) {
       render: {
         fillStyle: "white",
         strokeStyle: "white",
-        lineWidth: 4
+        lineWidth: 2
       },
       collisionFilter: {
         mask: 1
