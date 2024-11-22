@@ -12968,7 +12968,7 @@ function MellengerFooterAnimation(containerId) {
 
     // Set text properties
     ctx.fillStyle = colourName === "charcoal" || colourName === "brightAzure" || colourName === "midnightBlue" ? "#fff" : "#000";
-    ctx.font = string === "© 2024 Mellenger Interactive." ? "12pt Hanken Grotesk, sans-serif" : "20pt Hanken Grotesk, sans-serif";
+    ctx.font = string === "© 2024 Mellenger Interactive." ? "lighter 12pt Hanken Grotesk, sans-serif" : "lighter 20pt Hanken Grotesk, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
@@ -15259,8 +15259,12 @@ function MellengerHomePageAnimation(containerId) {
     }
   });
   engine.world.gravity.y = 0;
+  var div = document.querySelector("#hp-hero-bg");
+  if (!div) {
+    throw new Error("Container div not found");
+  }
   var canvasWidth = window.innerWidth;
-  var canvasHeight = window.innerWidth > 1875 ? window.innerWidth * 0.6 : window.innerWidth >= 750 ? window.innerWidth * 0.9 : window.innerWidth * 1.65;
+  var canvasHeight = div.offsetHeight;
   var render = Render.create({
     element: document.getElementById(containerId),
     engine: engine,

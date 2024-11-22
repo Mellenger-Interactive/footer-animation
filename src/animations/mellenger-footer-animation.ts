@@ -671,8 +671,8 @@ export function MellengerFooterAnimation(containerId: string) {
         : "#000";
     ctx.font =
       string === "© 2024 Mellenger Interactive."
-        ? "12pt Hanken Grotesk, sans-serif"
-        : "20pt Hanken Grotesk, sans-serif";
+        ? "lighter 12pt Hanken Grotesk, sans-serif"
+        : "lighter 20pt Hanken Grotesk, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 

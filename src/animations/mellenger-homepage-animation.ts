@@ -36,13 +36,13 @@ export function MellengerHomePageAnimation(containerId: string) {
 
   engine.world.gravity.y = 0;
 
+  const div = document.querySelector("#hp-hero-bg") as HTMLElement;
+  if (!div) {
+    throw new Error("Container div not found");
+  } 
+  
   const canvasWidth = window.innerWidth;
-  const canvasHeight =
-    window.innerWidth > 1875
-      ? window.innerWidth * 0.6
-      : window.innerWidth >= 750
-      ? window.innerWidth * 0.9
-      : window.innerWidth * 1.65;
+  const canvasHeight = div.offsetHeight;
 
   const render = Render.create({
     element: document.getElementById(containerId) as HTMLElement,
