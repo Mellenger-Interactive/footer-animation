@@ -12763,7 +12763,7 @@ function MellengerFooterAnimation(containerId) {
 
   // Renderer
   var canvasWidth = window.innerWidth;
-  var canvasHeight = canvasWidth * 0.8;
+  var canvasHeight = window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
   var render = Render.create({
     element: document.getElementById(containerId),
     engine: engine,
@@ -15398,7 +15398,7 @@ function MellengerHomePageAnimation(containerId) {
       render: {
         fillStyle: "white",
         strokeStyle: "white",
-        lineWidth: 2
+        lineWidth: 4
       },
       collisionFilter: {
         mask: 1
@@ -15406,11 +15406,6 @@ function MellengerHomePageAnimation(containerId) {
       label: "Wall"
     };
     var wallData = [{
-      x: 0,
-      y: canvasHeight,
-      width: canvasWidth * 2,
-      height: margin
-    }, {
       x: canvasWidth,
       y: 0,
       width: margin,
@@ -15555,6 +15550,10 @@ function MellengerHomePageAnimation(containerId) {
 }
 
 window.addEventListener("DOMContentLoaded", function () {
-  MellengerHomePageAnimation('hp-hero-bg');
-  MellengerFooterAnimation('footer-wrap');
+  if (document.getElementById('hp-hero-bg')) {
+    MellengerHomePageAnimation('hp-hero-bg');
+  }
+  if (document.getElementById('footer-wrap')) {
+    MellengerFooterAnimation('footer-wrap');
+  }
 });
