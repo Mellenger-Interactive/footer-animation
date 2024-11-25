@@ -40,7 +40,7 @@ export function MellengerHomePageAnimation(containerId: string) {
   if (!div) {
     throw new Error("Container div not found");
   } 
-  
+
   const canvasWidth = window.innerWidth;
   const canvasHeight = div.offsetHeight;
 
@@ -162,7 +162,7 @@ export function MellengerHomePageAnimation(containerId: string) {
       render: {
         fillStyle: "white",
         strokeStyle: "white",
-        lineWidth: 2,
+        lineWidth: 4,
       },
       collisionFilter: {
         mask: 1,
@@ -171,7 +171,6 @@ export function MellengerHomePageAnimation(containerId: string) {
     };
 
     const wallData = [
-      { x: 0, y: canvasHeight, width: canvasWidth * 2, height: margin },
       { x: canvasWidth, y: 0, width: margin, height: canvasHeight * 2 },
       { x: 0, y: 0, width: canvasWidth * 2, height: margin },
       { x: 0, y: 0, width: margin, height: canvasHeight * 2 },

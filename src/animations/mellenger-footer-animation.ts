@@ -400,7 +400,7 @@ export function MellengerFooterAnimation(containerId: string) {
 
   // Renderer
   const canvasWidth = window.innerWidth;
-  const canvasHeight = canvasWidth * 0.8;
+  const canvasHeight = window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
 
   const render = Render.create({
     element: document.getElementById(containerId) as HTMLElement,
