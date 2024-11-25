@@ -2,6 +2,10 @@ import { MellengerFooterAnimation } from "./animations/mellenger-footer-animatio
 import { MellengerHomePageAnimation } from "./animations/mellenger-homepage-animation";
 
 window.addEventListener("DOMContentLoaded", () => {
-    MellengerHomePageAnimation('hp-hero-bg'); 
-    MellengerFooterAnimation('footer-wrap')
+    if(document.getElementById('hp-hero-bg')) {
+      MellengerHomePageAnimation('hp-hero-bg'); 
+    }
+    if(document.getElementById('footer-wrap')) {
+      MellengerFooterAnimation('footer-wrap')
+    }
   });
