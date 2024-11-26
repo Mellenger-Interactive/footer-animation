@@ -403,9 +403,16 @@ export function MellengerFooterAnimation(containerId: string) {
   engine.world.gravity.y = 0;
 
   // Renderer
+  // const canvasWidth = window.innerWidth;
+  // const canvasHeight =
+  //   window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
+  const div = document.querySelector("#hp-hero-bg") as HTMLElement;
+  if (!div) {
+    throw new Error("Container div not found");
+  } 
+
   const canvasWidth = window.innerWidth;
-  const canvasHeight =
-    window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
+  const canvasHeight = div.offsetHeight * 0.9;
 
   const render = Render.create({
     element: document.getElementById(containerId) as HTMLElement,

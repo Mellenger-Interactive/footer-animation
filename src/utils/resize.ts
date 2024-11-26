@@ -16,11 +16,10 @@ export const handleCanvasResize = (
 
   window.addEventListener("resize", () => {
     if (resizeTimeout) {
-      clearTimeout(resizeTimeout); // Clear the previous timeout if resizing is still ongoing.
+      clearTimeout(resizeTimeout);
     }
 
     resizeTimeout = setTimeout(() => {
-      // Remove any existing canvas elements only if it's not initialized yet
       const existingCanvas = document.querySelectorAll(
         `#${containerId} canvas`
       );
@@ -29,31 +28,27 @@ export const handleCanvasResize = (
         existingCanvas.forEach((canvas: Element) => {
           const canvasElement = canvas as HTMLCanvasElement;
           canvasElement.remove();
-          console.log("canvas removed");
         });
       }
 
       if (!canvasInitialized) {
         if (render) {
-          // Stop the render loop and remove the existing canvas if needed
           Matter.Render.stop(render);
           if (render.canvas) {
             render.canvas.remove();
-            render.textures = {}; // Clear any textures to ensure fresh start
+            render.textures = {};
           }
         }
 
         if (engine) {
-          // Clear Matter.js engine world and reset the engine
           Matter.Composite.clear(engine.world, true);
           Matter.Engine.clear(engine);
         }
 
-        // Initialize a new canvas after clearing the old one
         animationFunction(containerId);
-        canvasInitialized = true; // Mark the canvas as initialized
+        canvasInitialized = true; 
       }
-    }, 300); // Wait for the resize to settle before reinitializing
+    }, 300); 
   });
 };
 

@@ -12426,38 +12426,32 @@ var handleCanvasResize = function handleCanvasResize(render, engine, containerId
   var canvasInitialized = false;
   window.addEventListener("resize", function () {
     if (resizeTimeout) {
-      clearTimeout(resizeTimeout); // Clear the previous timeout if resizing is still ongoing.
+      clearTimeout(resizeTimeout);
     }
     resizeTimeout = setTimeout(function () {
-      // Remove any existing canvas elements only if it's not initialized yet
       var existingCanvas = document.querySelectorAll("#".concat(containerId, " canvas"));
       if (existingCanvas.length > 0 && !canvasInitialized) {
         existingCanvas.forEach(function (canvas) {
           var canvasElement = canvas;
           canvasElement.remove();
-          console.log("canvas removed");
         });
       }
       if (!canvasInitialized) {
         if (render) {
-          // Stop the render loop and remove the existing canvas if needed
           matterExports.Render.stop(render);
           if (render.canvas) {
             render.canvas.remove();
-            render.textures = {}; // Clear any textures to ensure fresh start
+            render.textures = {};
           }
         }
         if (engine) {
-          // Clear Matter.js engine world and reset the engine
           matterExports.Composite.clear(engine.world, true);
           matterExports.Engine.clear(engine);
         }
-
-        // Initialize a new canvas after clearing the old one
         animationFunction(containerId);
-        canvasInitialized = true; // Mark the canvas as initialized
+        canvasInitialized = true;
       }
-    }, 300); // Wait for the resize to settle before reinitializing
+    }, 300);
   });
 };
 var handleObjectResize = function handleObjectResize(size) {
@@ -12764,8 +12758,15 @@ function MellengerFooterAnimation(containerId) {
   engine.world.gravity.y = 0;
 
   // Renderer
+  // const canvasWidth = window.innerWidth;
+  // const canvasHeight =
+  //   window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
+  var div = document.querySelector("#hp-hero-bg");
+  if (!div) {
+    throw new Error("Container div not found");
+  }
   var canvasWidth = window.innerWidth;
-  var canvasHeight = window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
+  var canvasHeight = div.offsetHeight * 0.9;
   var render = Render.create({
     element: document.getElementById(containerId),
     engine: engine,
