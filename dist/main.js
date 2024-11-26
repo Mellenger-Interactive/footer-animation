@@ -12423,39 +12423,41 @@ const polyDecomp = /*#__PURE__*/_mergeNamespaces({
 
 var handleCanvasResize = function handleCanvasResize(render, engine, containerId, animationFunction) {
   var resizeTimeout = null;
-  var canvasInitialized = true;
+  var canvasInitialized = false;
   window.addEventListener("resize", function () {
     if (resizeTimeout) {
-      clearTimeout(resizeTimeout);
+      clearTimeout(resizeTimeout); // Clear the previous timeout if resizing is still ongoing.
     }
     resizeTimeout = setTimeout(function () {
-      if (canvasInitialized) {
-        if (render) {
-          matterExports.Render.stop(render); // Stop the current render
-          if (render.canvas) {
-            render.canvas.remove(); // Remove the canvas
-          }
-        }
-
-        // Remove any existing canvas elements from the DOM
-        var existingCanvas = document.querySelectorAll("#".concat(containerId, " canvas"));
-        if (existingCanvas.length > 0) {
-          existingCanvas.forEach(function (canvas) {
-            var canvasElement = canvas;
-            canvasElement.remove();
-          });
-        }
-        if (engine) {
-          matterExports.Engine.clear(engine); // Clear the Matter engine
-        }
-        canvasInitialized = false;
+      // Remove any existing canvas elements only if it's not initialized yet
+      var existingCanvas = document.querySelectorAll("#".concat(containerId, " canvas"));
+      if (existingCanvas.length > 0 && !canvasInitialized) {
+        existingCanvas.forEach(function (canvas) {
+          var canvasElement = canvas;
+          canvasElement.remove();
+          console.log("canvas removed");
+        });
       }
       if (!canvasInitialized) {
-        // Call the provided animation function
+        if (render) {
+          // Stop the render loop and remove the existing canvas if needed
+          matterExports.Render.stop(render);
+          if (render.canvas) {
+            render.canvas.remove();
+            render.textures = {}; // Clear any textures to ensure fresh start
+          }
+        }
+        if (engine) {
+          // Clear Matter.js engine world and reset the engine
+          matterExports.Composite.clear(engine.world, true);
+          matterExports.Engine.clear(engine);
+        }
+
+        // Initialize a new canvas after clearing the old one
         animationFunction(containerId);
-        canvasInitialized = true;
+        canvasInitialized = true; // Mark the canvas as initialized
       }
-    }, 200); // Debounce the resize event with a timeout
+    }, 300); // Wait for the resize to settle before reinitializing
   });
 };
 var handleObjectResize = function handleObjectResize(size) {
@@ -13110,19 +13112,30 @@ function MellengerFooterAnimation(containerId) {
     image: "https://mellenger-interactive.github.io/footer-animation/images/muneeba.webp"
   }, {
     image: "https://mellenger-interactive.github.io/footer-animation/images/philippe.webp"
+  }, {
+    image: "https://mellenger-interactive.github.io/footer-animation/images/scott.webp"
   }];
   var initialBox = createBody(true, octoboiImage, canvasWidth > 768 ? canvasWidth * 0.8 : canvasWidth * 0.8, -250, "medsq", "paleSkyBlue", null, 1, 0, 0.6, 0.6);
+  var shuffleArray = function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  };
+  var shuffledStaff = [].concat(staff);
+  shuffleArray(shuffledStaff);
   var currentStaffIndex = 0;
   var generateStaffBox = function generateStaffBox(x, y) {
-    if (currentStaffIndex >= staff.length) {
+    if (currentStaffIndex >= shuffledStaff.length) {
       return null;
     }
-    var staffMember = staff[currentStaffIndex];
+    var staffMember = shuffledStaff[currentStaffIndex];
     var staffBox = createBody(true, staffMember.image, x, y, "mdsq", "paleSkyBlue", null, 1, 0, 0.6, 0.6);
     currentStaffIndex++;
     return staffBox;
   };
-
   //Mouse
   var mouse = Mouse.create(render.canvas);
   var mouseConstraint = MouseConstraint.create(engine, {
@@ -15372,7 +15385,7 @@ function MellengerHomePageAnimation(containerId) {
       // Align terrain's bottom with the bottom of the canvas
       var terrainHeight = bounds.max.y - bounds.min.y;
       var adjustedY = canvasHeight - terrainHeight / 3.55;
-      terrain = Bodies.fromVertices(canvasWidth / 2.3, adjustedY, scaledVertices, {
+      terrain = Bodies.fromVertices(canvasWidth / 2.29, adjustedY, scaledVertices, {
         isStatic: true,
         restitution: 1,
         render: {
@@ -15396,8 +15409,8 @@ function MellengerHomePageAnimation(containerId) {
     var wallOptions = {
       isStatic: true,
       render: {
-        fillStyle: "white",
-        strokeStyle: "white",
+        fillStyle: "#0031AF",
+        strokeStyle: "#0031AF",
         lineWidth: 4
       },
       collisionFilter: {
