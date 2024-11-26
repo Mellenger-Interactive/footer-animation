@@ -18,6 +18,10 @@ interface ColorMap {
   [key: string]: string;
 }
 
+interface StaffMember {
+  image: string;
+}
+
 export function MellengerFooterAnimation(containerId: string) {
   const Engine = Matter.Engine,
     Render = Matter.Render,
@@ -400,7 +404,8 @@ export function MellengerFooterAnimation(containerId: string) {
 
   // Renderer
   const canvasWidth = window.innerWidth;
-  const canvasHeight = window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
+  const canvasHeight =
+    window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
 
   const render = Render.create({
     element: document.getElementById(containerId) as HTMLElement,
@@ -825,7 +830,7 @@ export function MellengerFooterAnimation(containerId: string) {
   const octoboiImage =
     "https://mellenger-interactive.github.io/footer-animation/images/wand.webp";
 
-  const staff = [
+  const staff: StaffMember[] = [
     {
       image:
         "https://mellenger-interactive.github.io/footer-animation/images/andrew.webp",
@@ -866,6 +871,10 @@ export function MellengerFooterAnimation(containerId: string) {
       image:
         "https://mellenger-interactive.github.io/footer-animation/images/philippe.webp",
     },
+    {
+      image:
+        "https://mellenger-interactive.github.io/footer-animation/images/scott.webp",
+    },
   ];
 
   const initialBox = createBody(
@@ -882,14 +891,26 @@ export function MellengerFooterAnimation(containerId: string) {
     0.6
   );
 
+  const shuffleArray = <T>(array: T[]): void => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  };
+
+  let shuffledStaff = [...staff];
+  shuffleArray(shuffledStaff);
+
   let currentStaffIndex = 0;
 
   const generateStaffBox = (x: number, y: number) => {
-    if (currentStaffIndex >= staff.length) {
+    if (currentStaffIndex >= shuffledStaff.length) {
       return null;
     }
 
-    const staffMember = staff[currentStaffIndex];
+    const staffMember = shuffledStaff[currentStaffIndex];
 
     const staffBox = createBody(
       true,
@@ -904,12 +925,10 @@ export function MellengerFooterAnimation(containerId: string) {
       0.6,
       0.6
     );
-
     currentStaffIndex++;
 
     return staffBox;
   };
-
   //Mouse
   const mouse = Mouse.create(render.canvas);
   const mouseConstraint = MouseConstraint.create(engine, {

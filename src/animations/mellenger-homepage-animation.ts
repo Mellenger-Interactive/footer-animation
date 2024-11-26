@@ -132,7 +132,7 @@ export function MellengerHomePageAnimation(containerId: string) {
       const adjustedY = canvasHeight - terrainHeight / 3.55;
 
       terrain = Bodies.fromVertices(
-        canvasWidth / 2.3,
+        canvasWidth / 2.29,
         adjustedY,
         scaledVertices,
         {
@@ -160,8 +160,8 @@ export function MellengerHomePageAnimation(containerId: string) {
     const wallOptions = {
       isStatic: true,
       render: {
-        fillStyle: "white",
-        strokeStyle: "white",
+        fillStyle: "#0031AF",
+        strokeStyle: "#0031AF",
         lineWidth: 4,
       },
       collisionFilter: {
