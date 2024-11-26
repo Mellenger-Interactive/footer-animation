@@ -403,10 +403,7 @@ export function MellengerFooterAnimation(containerId: string) {
   engine.world.gravity.y = 0;
 
   // Renderer
-  // const canvasWidth = window.innerWidth;
-  // const canvasHeight =
-  //   window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
-  const div = document.querySelector("#hp-hero-bg") as HTMLElement;
+  const div = document.querySelector("#footer-wrap") as HTMLElement;
   if (!div) {
     throw new Error("Container div not found");
   } 
