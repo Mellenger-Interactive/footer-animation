@@ -12758,10 +12758,7 @@ function MellengerFooterAnimation(containerId) {
   engine.world.gravity.y = 0;
 
   // Renderer
-  // const canvasWidth = window.innerWidth;
-  // const canvasHeight =
-  //   window.innerWidth <= 991 ? canvasWidth * 1.2 : canvasWidth * 0.8;
-  var div = document.querySelector("#hp-hero-bg");
+  var div = document.querySelector("#footer-wrap");
   if (!div) {
     throw new Error("Container div not found");
   }
