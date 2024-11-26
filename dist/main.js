@@ -12763,7 +12763,7 @@ function MellengerFooterAnimation(containerId) {
     throw new Error("Container div not found");
   }
   var canvasWidth = window.innerWidth;
-  var canvasHeight = div.offsetHeight * 0.9;
+  var canvasHeight = div.offsetHeight;
   var render = Render.create({
     element: document.getElementById(containerId),
     engine: engine,

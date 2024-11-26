@@ -409,7 +409,7 @@ export function MellengerFooterAnimation(containerId: string) {
   } 
 
   const canvasWidth = window.innerWidth;
-  const canvasHeight = div.offsetHeight * 0.9;
+  const canvasHeight = div.offsetHeight;
 
   const render = Render.create({
     element: document.getElementById(containerId) as HTMLElement,
