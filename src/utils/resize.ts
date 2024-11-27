@@ -71,3 +71,23 @@ export const handleObjectResize = (size: Size) => {
 
   return { width: calculatedWidth, height: calculatedHeight };
 };
+
+export const handleFooterObjectResize = (size: Size) => {
+  const maxWidth = size.width;
+  const maxHeight = size.height;
+  const screenWidth = window.innerWidth;
+  let scaleFactor = 1;
+
+  if (screenWidth < 900) {
+    if (screenWidth < 400) {
+      scaleFactor = (screenWidth / 1050) * 1.6;
+    } else {
+      scaleFactor = screenWidth / 900;
+    }
+  }
+
+  const calculatedWidth = Math.max(maxWidth * scaleFactor, 40);
+  const calculatedHeight = Math.max(maxHeight * scaleFactor, 40);
+
+  return { width: calculatedWidth, height: calculatedHeight, scaleFactor: scaleFactor };
+};

@@ -4,7 +4,7 @@ import Matter, {
   IRendererOptions,
 } from "matter-js";
 import * as polyDecomp from "poly-decomp";
-import { handleCanvasResize } from "../utils/resize";
+import { handleCanvasResize, handleFooterObjectResize } from "../utils/resize";
 
 interface ICustomBodyDefinition extends IChamferableBodyDefinition {
   url?: string;
@@ -406,7 +406,7 @@ export function MellengerFooterAnimation(containerId: string) {
   const div = document.querySelector("#footer-wrap") as HTMLElement;
   if (!div) {
     throw new Error("Container div not found");
-  } 
+  }
 
   const canvasWidth = window.innerWidth;
   const canvasHeight = div.offsetHeight;
@@ -577,10 +577,10 @@ export function MellengerFooterAnimation(containerId: string) {
     xScale?: number,
     yScale?: number
   ) => {
-    const { width, height } = sizes[size] || {
-      width: 120,
-      height: 120,
-    };
+    const originalSize = sizes[size] || { width: 120, height: 120 };
+    const resizedSize = handleFooterObjectResize(originalSize);
+    const { width, height, scaleFactor } = resizedSize;
+
     const colour = colours[colourName];
 
     const body = Bodies.rectangle(x, y, width, height, {
@@ -622,8 +622,8 @@ export function MellengerFooterAnimation(containerId: string) {
             texture: String(
               hasImage ? text : createTextImage(text, colourName)
             ),
-            xScale: hasImage ? xScale : 0.75,
-            yScale: hasImage ? yScale : 0.75,
+            xScale: hasImage ? (xScale || 1) * scaleFactor : 0.75 * scaleFactor,
+            yScale: hasImage ? (yScale || 1) * scaleFactor : 0.75 * scaleFactor,
           },
         },
         url: link,
@@ -708,7 +708,7 @@ export function MellengerFooterAnimation(containerId: string) {
     {
       hasImage: false,
       text: "Our work",
-      positionX: canvasWidth > 768 ? canvasWidth * 0.7 : canvasWidth * 0,
+      positionX: canvasWidth > 768 ? canvasWidth * 0.7 : canvasWidth * 0.7,
       positionY: -290,
       size: "lgsq",
       color: "skyBlue",
@@ -947,12 +947,38 @@ export function MellengerFooterAnimation(containerId: string) {
 
   Composite.add(engine.world, mouseConstraint);
 
-  const mousewheelProperty = (mouseConstraint.mouse as any).mousewheel; // Bypass TypeScript error
+  const mousewheelProperty = (mouseConstraint.mouse as any).mousewheel;
   if (mousewheelProperty) {
     mouseConstraint.mouse.element.removeEventListener(
       "wheel",
       mousewheelProperty
     );
+  }
+
+  const mouseDownProperty = (mouseConstraint.mouse as any).mousedown;
+  if (mouseDownProperty) {
+    mouseConstraint.mouse.element.removeEventListener(
+      "touchstart",
+      mouseDownProperty
+    );
+    mouseConstraint.mouse.element.addEventListener(
+      "touchstart",
+      mouseDownProperty,
+      { passive: true }
+    );
+  }
+
+  const mouseMoveProperty = (mouseConstraint.mouse as any).mousemove;
+  if (mouseMoveProperty) {
+    mouseConstraint.mouse.element.removeEventListener(
+      "touchmove",
+      mouseMoveProperty
+    );
+    mouseConstraint.mouse.element.addEventListener("touchmove", (event) => {
+      if (mouseConstraint.body) {
+        mouseMoveProperty(event);
+      }
+    });
   }
 
   Events.on(mouseConstraint, "mousedown", function (event) {
@@ -984,7 +1010,6 @@ export function MellengerFooterAnimation(containerId: string) {
 
       if (scrollTop + windowHeight >= documentHeight - 50) {
         engine.world.gravity.y = 1;
-        console.log("Gravity set to 1");
       }
     },
     { passive: true }

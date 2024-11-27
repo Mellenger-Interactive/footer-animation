@@ -12473,6 +12473,26 @@ var handleObjectResize = function handleObjectResize(size) {
     height: calculatedHeight
   };
 };
+var handleFooterObjectResize = function handleFooterObjectResize(size) {
+  var maxWidth = size.width;
+  var maxHeight = size.height;
+  var screenWidth = window.innerWidth;
+  var scaleFactor = 1;
+  if (screenWidth < 900) {
+    if (screenWidth < 400) {
+      scaleFactor = screenWidth / 1050 * 1.6;
+    } else {
+      scaleFactor = screenWidth / 900;
+    }
+  }
+  var calculatedWidth = Math.max(maxWidth * scaleFactor, 40);
+  var calculatedHeight = Math.max(maxHeight * scaleFactor, 40);
+  return {
+    width: calculatedWidth,
+    height: calculatedHeight,
+    scaleFactor: scaleFactor
+  };
+};
 
 function MellengerFooterAnimation(containerId) {
   var Engine = Matter.Engine,
@@ -12893,12 +12913,14 @@ function MellengerFooterAnimation(containerId) {
     var bodyAngle = arguments.length > 8 ? arguments[8] : undefined;
     var xScale = arguments.length > 9 ? arguments[9] : undefined;
     var yScale = arguments.length > 10 ? arguments[10] : undefined;
-    var _ref = sizes[size] || {
-        width: 120,
-        height: 120
-      },
-      width = _ref.width,
-      height = _ref.height;
+    var originalSize = sizes[size] || {
+      width: 120,
+      height: 120
+    };
+    var resizedSize = handleFooterObjectResize(originalSize);
+    var width = resizedSize.width,
+      height = resizedSize.height,
+      scaleFactor = resizedSize.scaleFactor;
     var colour = colours[colourName];
     var body = Bodies.rectangle(x, y, width, height, {
       density: 10,
@@ -12923,8 +12945,8 @@ function MellengerFooterAnimation(containerId) {
       render: {
         sprite: {
           texture: String(hasImage ? text : createTextImage(text, colourName)),
-          xScale: hasImage ? xScale : 0.75,
-          yScale: hasImage ? yScale : 0.75
+          xScale: hasImage ? (xScale || 1) * scaleFactor : 0.75 * scaleFactor,
+          yScale: hasImage ? (yScale || 1) * scaleFactor : 0.75 * scaleFactor
         }
       },
       url: link
@@ -12990,7 +13012,7 @@ function MellengerFooterAnimation(containerId) {
   }, {
     hasImage: false,
     text: "Our work",
-    positionX: canvasWidth > 768 ? canvasWidth * 0.7 : canvasWidth * 0,
+    positionX: canvasWidth > 768 ? canvasWidth * 0.7 : canvasWidth * 0.7,
     positionY: -290,
     size: "lgsq",
     color: "skyBlue",
@@ -13146,9 +13168,25 @@ function MellengerFooterAnimation(containerId) {
     }
   });
   Composite.add(engine.world, mouseConstraint);
-  var mousewheelProperty = mouseConstraint.mouse.mousewheel; // Bypass TypeScript error
+  var mousewheelProperty = mouseConstraint.mouse.mousewheel;
   if (mousewheelProperty) {
     mouseConstraint.mouse.element.removeEventListener("wheel", mousewheelProperty);
+  }
+  var mouseDownProperty = mouseConstraint.mouse.mousedown;
+  if (mouseDownProperty) {
+    mouseConstraint.mouse.element.removeEventListener("touchstart", mouseDownProperty);
+    mouseConstraint.mouse.element.addEventListener("touchstart", mouseDownProperty, {
+      passive: true
+    });
+  }
+  var mouseMoveProperty = mouseConstraint.mouse.mousemove;
+  if (mouseMoveProperty) {
+    mouseConstraint.mouse.element.removeEventListener("touchmove", mouseMoveProperty);
+    mouseConstraint.mouse.element.addEventListener("touchmove", function (event) {
+      if (mouseConstraint.body) {
+        mouseMoveProperty(event);
+      }
+    });
   }
   Events.on(mouseConstraint, "mousedown", function (event) {
     var mouseConstraint = event.source;
@@ -13173,7 +13211,6 @@ function MellengerFooterAnimation(containerId) {
     var windowHeight = window.innerHeight;
     if (scrollTop + windowHeight >= documentHeight - 50) {
       engine.world.gravity.y = 1;
-      console.log("Gravity set to 1");
     }
   }, {
     passive: true
